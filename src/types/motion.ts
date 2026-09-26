@@ -29,6 +29,13 @@ export interface CameraTarget {
   horizonRise?: number;
 }
 
+export type EnvironmentProfile =
+  | 'cosmic'
+  | 'identity'
+  | 'timeline'
+  | 'media'
+  | 'skills';
+
 export interface SceneStateRef {
   current: {
     progress: number;
@@ -39,6 +46,7 @@ export interface SceneStateRef {
     astronautWaveUntil?: number;
     satellitePulseUntil?: number;
     ambientTone?: 'deep_blue' | 'violet' | 'amber' | 'dawn';
+    environmentProfile?: EnvironmentProfile;
     navigationMode?: 'cinematic' | 'explore';
     exploreTilt?: { x: number; y: number };
     isTransitioning?: boolean;

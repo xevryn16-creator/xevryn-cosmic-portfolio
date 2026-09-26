@@ -1,6 +1,4 @@
-// src/types/universe.ts
-
-import { CameraTarget } from './motion';
+import { CameraTarget, EnvironmentProfile } from './motion';
 
 export type UniverseLocation =
   | 'home'        // SECTOR 01: XEVRYN CORE (Hero)
@@ -27,6 +25,7 @@ export interface SectorInfo {
   cameraTarget: Partial<CameraTarget>;
   connections: UniverseLocation[];
   shortcutKey: string;
+  environmentProfile?: EnvironmentProfile;
 }
 
 export type CelestialObjectCategory =

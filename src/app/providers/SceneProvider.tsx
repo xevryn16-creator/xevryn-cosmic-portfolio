@@ -1,6 +1,6 @@
 // src/app/providers/SceneProvider.tsx
 import React, { createContext, useContext, useRef, useState, useEffect } from 'react';
-import { CameraTarget, SceneStateRef } from '@/types/motion';
+import { CameraTarget, SceneStateRef, EnvironmentProfile } from '@/types/motion';
 
 const defaultTarget: CameraTarget = {
   x: 0,
@@ -31,6 +31,8 @@ interface SceneContextValue {
   triggerSatellitePulse: () => void;
   ambientTone: 'deep_blue' | 'violet' | 'amber' | 'dawn';
   setAmbientTone: (tone: 'deep_blue' | 'violet' | 'amber' | 'dawn') => void;
+  environmentProfile: EnvironmentProfile;
+  setEnvironmentProfile: (profile: EnvironmentProfile) => void;
 }
 
 const SceneContext = createContext<SceneContextValue | null>(null);
@@ -39,6 +41,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
   const [isContextLost, setContextLost] = useState<boolean>(false);
   const [ambientTone, setAmbientTone] = useState<'deep_blue' | 'violet' | 'amber' | 'dawn'>('deep_blue');
+  const [environmentProfile, setEnvironmentProfile] = useState<EnvironmentProfile>('cosmic');
 
   const sceneStateRef = useRef<SceneStateRef['current']>({
     progress: 0,
@@ -49,12 +52,31 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     astronautWaveUntil: 0,
     satellitePulseUntil: 0,
     ambientTone: 'deep_blue',
+    environmentProfile: 'cosmic',
   });
 
   useEffect(() => {
     sceneStateRef.current.ambientTone = ambientTone;
     document.documentElement.setAttribute('data-ambient-tone', ambientTone);
   }, [ambientTone]);
+
+  useEffect(() => {
+    sceneStateRef.current.environmentProfile = environmentProfile;
+    document.documentElement.setAttribute('data-environment-profile', environmentProfile);
+    
+    // Auto-harmonize ambient tone with profile if not manually overridden
+    if (environmentProfile === 'timeline') {
+      setAmbientTone('amber');
+    } else if (environmentProfile === 'media') {
+      setAmbientTone('violet');
+    } else if (environmentProfile === 'identity') {
+      setAmbientTone('deep_blue');
+    } else if (environmentProfile === 'skills') {
+      setAmbientTone('violet');
+    } else if (environmentProfile === 'cosmic') {
+      setAmbientTone('deep_blue');
+    }
+  }, [environmentProfile]);
 
   const triggerAstronautWave = () => {
     sceneStateRef.current.astronautWaveUntil = Date.now() + 4000;
@@ -121,6 +143,8 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         triggerSatellitePulse,
         ambientTone,
         setAmbientTone,
+        environmentProfile,
+        setEnvironmentProfile,
       }}
     >
       {children}

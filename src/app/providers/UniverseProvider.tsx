@@ -30,7 +30,7 @@ interface UniverseContextValue {
 const UniverseContext = createContext<UniverseContextValue | null>(null);
 
 export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { sceneStateRef, updateCameraTarget } = useScene();
+  const { sceneStateRef, updateCameraTarget, setEnvironmentProfile } = useScene();
   const { isReduced } = useMotion();
   const { playChime } = useSound();
 
@@ -163,6 +163,9 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       sceneStateRef.current.isTransitioning = true;
       sceneStateRef.current.currentLocation = location;
       setCurrentLocation(location);
+      if (targetSector.environmentProfile) {
+        setEnvironmentProfile(targetSector.environmentProfile);
+      }
 
       setIsUniverseMapOpen(false);
       setFocusedObject(null);
@@ -211,7 +214,7 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         sceneStateRef.current.isTransitioning = false;
       }, warpDuration);
     },
-    [currentLocation, isReduced, playChime, sceneStateRef, updateCameraTarget]
+    [currentLocation, isReduced, playChime, sceneStateRef, setEnvironmentProfile, updateCameraTarget]
   );
 
   // Scroll spy to detect active sector while user scrolls naturally in cinematic mode
@@ -230,6 +233,9 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             setCurrentLocation((prev) => {
               if (prev !== sector.id) {
                 sceneStateRef.current.currentLocation = sector.id;
+                if (sector.environmentProfile) {
+                  setEnvironmentProfile(sector.environmentProfile);
+                }
                 return sector.id;
               }
               return prev;
@@ -243,7 +249,7 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     window.addEventListener('scroll', handleScrollSpy, { passive: true });
     handleScrollSpy();
     return () => window.removeEventListener('scroll', handleScrollSpy);
-  }, [navigationMode, sceneStateRef]);
+  }, [navigationMode, sceneStateRef, setEnvironmentProfile]);
 
   // FREE-ROAM ORBITAL CAMERA CONTROLLER & INPUT LISTENER (Explore Mode)
   const isDraggingRef = useRef(false);
