@@ -6,6 +6,7 @@ import { projectsContent } from '@/content/projects';
 import { ProjectTrack } from '@/components/projects/ProjectTrack';
 import { useMotion } from '@/app/providers/MotionProvider';
 import { useScene } from '@/app/providers/SceneProvider';
+import { useUniverse } from '@/app/providers/UniverseProvider';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -15,12 +16,30 @@ interface WorkProps {
   onInspectProject?: (slug: string) => void;
 }
 
+type CategoryFilter = 'ALL' | 'WEB' | 'AI/AUTO' | 'ROBLOX' | 'CREATIVE';
+
+const CATEGORY_MAP: Record<string, CategoryFilter> = {
+  'xevryn-cosmic-portfolio': 'WEB',
+  'xevryn-campus': 'WEB',
+  'campus-whatsapp-bot': 'AI/AUTO',
+  'retaillab': 'WEB',
+  'ucapan-buat-kamu': 'CREATIVE',
+  'roblox-projects': 'ROBLOX',
+  'marketra': 'WEB',
+  'xevryn-assets': 'CREATIVE',
+};
+
+const CATEGORY_FILTERS: CategoryFilter[] = ['ALL', 'WEB', 'AI/AUTO', 'ROBLOX', 'CREATIVE'];
+
 export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [selectedPlanetIndex, setSelectedPlanetIndex] = useState(0);
+  const [activeFilter, setActiveFilter] = useState<CategoryFilter>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
   const { isReduced } = useMotion();
   const { updateCameraTarget } = useScene();
+  const { openProjectWorld } = useUniverse();
 
   const celestialPlanets = [
     { name: 'Cosmic Core', type: 'Matahari', color: '#f59e0b', slug: 'xevryn-cosmic-portfolio', icon: '☀️' },
@@ -30,6 +49,16 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
     { name: 'Gift Nebula', type: 'Nebula Hangat', color: '#f43f5e', slug: 'ucapan-buat-kamu', icon: '✨' },
     { name: 'Roblox Colossus', type: 'Raksasa Gas', color: '#c084fc', slug: 'roblox-projects', icon: '🪐' },
   ];
+
+  // Filter projects based on active category and search query
+  const filteredProjects = projectsContent.filter((proj) => {
+    const matchesCategory = activeFilter === 'ALL' || CATEGORY_MAP[proj.slug] === activeFilter;
+    const matchesSearch =
+      !searchQuery ||
+      proj.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      proj.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesCategory && matchesSearch;
+  });
 
   useEffect(() => {
     if (isReduced || !sectionRef.current) return;
@@ -79,6 +108,11 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
 
   const handlePlanetSelect = (idx: number, slug: string) => {
     setSelectedPlanetIndex(idx);
+    openProjectWorld(slug);
+  };
+
+  const handleInspectProject = (slug: string) => {
+    openProjectWorld(slug);
     if (onInspectProject) {
       onInspectProject(slug);
     }
@@ -89,7 +123,7 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
       id="work"
       ref={sectionRef}
       className="section"
-      aria-label="Work Section: Project Solar System"
+      aria-label="Work Section: Project Constellation"
     >
       <div className="container">
         {/* Header */}
@@ -106,7 +140,7 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
               aria-hidden="true"
             />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.12em', color: 'var(--color-cyan-glow)' }}>
-              07 / PROJECT SOLAR SYSTEM
+              07 / PROJECT CONSTELLATION 2.0
             </span>
           </div>
 
@@ -117,14 +151,47 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
           </div>
 
           <p className="section-desc" style={{ maxWidth: '64ch' }}>
-            Setiap proyek direpresentasikan sebagai objek angkasa dalam tata surya XEVRYN. Sorot planet untuk melihat orbitnya atau pilih karya untuk mendekat ke antarmuka teknis.
+            Setiap proyek direpresentasikan sebagai dunia tersendiri dalam semesta XEVRYN. Pilih planet untuk memasuki studi kasus teknis interaktif.
           </p>
+
+          {/* Project Constellation 2.0 Controls: Filters + Search */}
+          <div className="project-constellation-controls">
+            <div className="constellation-toolbar">
+              {/* Category Filters */}
+              <div className="constellation-filters" role="group" aria-label="Filter kategori proyek">
+                {CATEGORY_FILTERS.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`constellation-filter-btn ${activeFilter === cat ? 'is-active' : ''}`}
+                    onClick={() => setActiveFilter(cat)}
+                    aria-pressed={activeFilter === cat}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* Search Input */}
+              <div className="constellation-search-wrap">
+                <span className="constellation-search-icon" aria-hidden="true">⌕</span>
+                <input
+                  type="search"
+                  className="constellation-search-input"
+                  placeholder="Cari proyek atau teknologi..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label="Cari proyek"
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Celestial Orbit Mini Radar / Selector */}
           <div
             className="solar-system-radar"
             style={{
-              marginTop: '28px',
+              marginTop: '16px',
               padding: '16px 20px',
               background: 'rgba(15, 23, 42, 0.75)',
               border: '1px solid rgba(56, 189, 248, 0.25)',
@@ -140,7 +207,7 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '14px' }}>🪐</span>
               <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--color-text-dim)', letterSpacing: '0.08em' }}>
-                RADAR ORBIT KARYA:
+                ORBIT RADAR // ENTER WORLD:
               </span>
             </div>
 
@@ -165,7 +232,7 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
                     color: selectedPlanetIndex === i ? '#ffffff' : 'var(--color-text-dim)',
                     transition: 'all 0.2s ease',
                   }}
-                  aria-label={`Inspect ${pl.name} (${pl.type})`}
+                  aria-label={`Enter world: ${pl.name} (${pl.type})`}
                 >
                   <span style={{ color: pl.color }}>{pl.icon}</span>
                   <span>{pl.name}</span>
@@ -174,12 +241,24 @@ export const Work: React.FC<WorkProps> = ({ onInspectProject }) => {
               ))}
             </div>
           </div>
+
+          {/* Filter result count */}
+          {(activeFilter !== 'ALL' || searchQuery) && (
+            <div style={{ marginTop: '12px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-text-dim)' }}>
+              MENAMPILKAN {filteredProjects.length} DARI {projectsContent.length} PROYEK
+              {searchQuery && (
+                <span style={{ color: 'var(--color-cyan-glow)', marginLeft: '8px' }}>
+                  // QUERY: &quot;{searchQuery}&quot;
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Main Showcase Track */}
+        {/* Main Showcase Track - uses filtered projects */}
         <ProjectTrack
-          projects={projectsContent}
-          onInspectProject={onInspectProject}
+          projects={filteredProjects.length > 0 ? filteredProjects : projectsContent}
+          onInspectProject={handleInspectProject}
         />
       </div>
     </section>

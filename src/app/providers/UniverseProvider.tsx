@@ -2,10 +2,14 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { UniverseLocation, NavigationMode, SectorInfo, CelestialObjectMeta } from '@/types/universe';
+import { ProjectContent } from '@/types/content';
 import { UNIVERSE_SECTORS, getSectorById } from '@/content/universe';
+import { projectsContent } from '@/content/projects';
+import { CELESTIAL_OBJECTS } from '@/content/celestialObjects';
 import { useScene } from '@/app/providers/SceneProvider';
 import { useMotion } from '@/app/providers/MotionProvider';
 import { useSound } from '@/app/providers/SoundProvider';
+import { CaseStudyDrawer } from '@/components/projects/CaseStudyDrawer';
 
 interface UniverseContextValue {
   currentLocation: UniverseLocation;
@@ -16,6 +20,7 @@ interface UniverseContextValue {
   sectors: SectorInfo[];
   focusedObject: CelestialObjectMeta | null;
   hoveredObject: CelestialObjectMeta | null;
+  activeProjectWorld: ProjectContent | null;
   openUniverseMap: () => void;
   closeUniverseMap: () => void;
   toggleUniverseMap: () => void;
@@ -25,6 +30,8 @@ interface UniverseContextValue {
   focusCelestialObject: (obj: CelestialObjectMeta) => void;
   exitFocus: () => void;
   setHoveredObject: (obj: CelestialObjectMeta | null) => void;
+  openProjectWorld: (slug: string) => void;
+  closeProjectWorld: () => void;
 }
 
 const UniverseContext = createContext<UniverseContextValue | null>(null);
@@ -40,6 +47,7 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [focusedObject, setFocusedObject] = useState<CelestialObjectMeta | null>(null);
   const [hoveredObject, setHoveredObject] = useState<CelestialObjectMeta | null>(null);
+  const [activeProjectWorld, setActiveProjectWorld] = useState<ProjectContent | null>(null);
 
   const currentSector = useMemo(() => getSectorById(currentLocation), [currentLocation]);
 
@@ -151,6 +159,47 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ec.targetDistance = Math.max(7.5, ec.targetDistance * 1.4);
     }
   }, [playChime, sceneStateRef]);
+
+  // Open / Close Project World & Case Study Engine
+  const openProjectWorld = useCallback(
+    (slug: string) => {
+      const proj = projectsContent.find((p) => p.slug === slug);
+      if (!proj) return;
+
+      playChime();
+
+      // Find matching celestial object and focus on it in the universe
+      const matchedObj = CELESTIAL_OBJECTS.find(
+        (obj) => obj.slug === slug || (obj.category === 'PROJECT' && obj.slug === slug)
+      );
+      if (matchedObj) {
+        focusCelestialObject(matchedObj);
+      }
+
+      // If motion enabled, trigger a smooth warp camera transition before activating case study drawer
+      if (!isReduced) {
+        updateCameraTarget({
+          warpFactor: 0.45,
+          starSpeed: 0.35,
+        });
+        setTimeout(() => {
+          updateCameraTarget({
+            warpFactor: 0.0,
+            starSpeed: 0.12,
+          });
+          setActiveProjectWorld(proj);
+        }, 550);
+      } else {
+        setActiveProjectWorld(proj);
+      }
+    },
+    [focusCelestialObject, isReduced, playChime, updateCameraTarget]
+  );
+
+  const closeProjectWorld = useCallback(() => {
+    playChime();
+    setActiveProjectWorld(null);
+  }, [playChime]);
 
   // Navigate to universe destination with hyperspace warp burst & camera target update
   const navigateTo = useCallback(
@@ -388,6 +437,11 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         // Elevate focus up
         ec.targetFocus.y = Math.min(25, ec.targetFocus.y + 0.6);
       } else if (key === 'escape') {
+        if (activeProjectWorld) {
+          e.preventDefault();
+          closeProjectWorld();
+          return;
+        }
         if (focusedObject) {
           e.preventDefault();
           exitFocus();
@@ -429,6 +483,7 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         sectors: UNIVERSE_SECTORS,
         focusedObject,
         hoveredObject,
+        activeProjectWorld,
         openUniverseMap,
         closeUniverseMap,
         toggleUniverseMap,
@@ -438,9 +493,18 @@ export const UniverseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         focusCelestialObject,
         exitFocus,
         setHoveredObject,
+        openProjectWorld,
+        closeProjectWorld,
       }}
     >
       {children}
+      {activeProjectWorld && (
+        <CaseStudyDrawer
+          project={activeProjectWorld}
+          onClose={closeProjectWorld}
+          onSelectProject={openProjectWorld}
+        />
+      )}
     </UniverseContext.Provider>
   );
 };

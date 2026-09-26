@@ -23,6 +23,35 @@ export interface ProjectLink {
   kind: 'live' | 'repo' | 'demo';
 }
 
+export interface ProjectArchitectureNode {
+  id: string;
+  label: string;
+  role: string;
+  category: 'client' | 'frontend' | 'logic' | 'state' | 'engine' | 'storage' | 'service';
+  description: string;
+}
+
+export interface ProjectArchitectureLink {
+  from: string;
+  to: string;
+  label?: string;
+}
+
+export interface ProjectArchitectureData {
+  diagramTitle: string;
+  nodes: ProjectArchitectureNode[];
+  edges: ProjectArchitectureLink[];
+}
+
+export interface ProjectWorldConfig {
+  projectId: string;
+  environment: 'cosmic' | 'system' | 'communication' | 'retail' | 'experimental' | 'gift';
+  accentColor: string;
+  worldName: string;
+  worldSubtitle: string;
+  architecture?: ProjectArchitectureData;
+}
+
 export interface ProjectContent {
   id: string;                      // ID unik (misal: 'PRJ-01')
   slug: string;                    // Slug URL rute (misal: 'stellar-engine')
@@ -42,6 +71,7 @@ export interface ProjectContent {
   links: ProjectLink[];            // Tautan eksternal (hanya yang aktif)
   celestialType?: 'sun' | 'rocky' | 'ocean' | 'gas_giant' | 'ringed' | 'nebula_planet' | 'satellite';
   status: ContentStatus;
+  architecture?: ProjectArchitectureData;
 }
 
 export type SkillCategory =

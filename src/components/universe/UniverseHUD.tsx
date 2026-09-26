@@ -15,12 +15,14 @@ export const UniverseHUD: React.FC = () => {
     focusedObject,
     hoveredObject,
     exitFocus,
+    openProjectWorld,
   } = useUniverse();
 
   const handleActionClick = (target?: string) => {
     if (!target) return;
     if (target.startsWith('#work/')) {
-      window.location.hash = target;
+      const slug = target.replace('#work/', '');
+      openProjectWorld(slug);
     } else if (target.startsWith('#')) {
       const id = target.replace('#', '');
       const el = document.getElementById(id);
@@ -45,9 +47,13 @@ export const UniverseHUD: React.FC = () => {
             <span className="crosshair-reticle" />
             {hoveredObject && (
               <div className="crosshair-target-card">
-                <span className="target-card-cat">{hoveredObject.category}</span>
+                <span className="target-card-cat">
+                  {hoveredObject.category === 'PROJECT' ? 'PROJECT DETECTED' : hoveredObject.category}
+                </span>
                 <span className="target-card-name">{hoveredObject.name}</span>
-                <span className="target-card-hint">CLICK TO FOCUS</span>
+                <span className="target-card-hint">
+                  {hoveredObject.category === 'PROJECT' ? '[ CLICK TO FOCUS WORLD ]' : 'CLICK TO FOCUS'}
+                </span>
               </div>
             )}
           </div>
@@ -61,8 +67,18 @@ export const UniverseHUD: React.FC = () => {
             <div className="focus-card-header">
               <span className="focus-badge-pulse" aria-hidden="true" />
               <div className="focus-header-text">
-                <span className="focus-card-status">FOCUS LOCKED // {focusedObject.category}</span>
+                <span className="focus-card-status">
+                  {focusedObject.category === 'PROJECT'
+                    ? `PROJECT // ${focusedObject.name}`
+                    : `FOCUS LOCKED // ${focusedObject.category}`}
+                </span>
                 <h3 className="focus-card-title">{focusedObject.name}</h3>
+                {focusedObject.category === 'PROJECT' && (
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '4px', fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--color-cyan-glow)' }}>
+                    <span>STATUS // VERIFIED</span>
+                    <span>TYPE // {focusedObject.subtitle ? focusedObject.subtitle.toUpperCase() : 'WEB APPLICATION'}</span>
+                  </div>
+                )}
               </div>
               <button
                 type="button"
@@ -88,15 +104,31 @@ export const UniverseHUD: React.FC = () => {
             )}
 
             <div className="focus-card-actions">
-              {focusedObject.actionLabel && focusedObject.actionTarget && (
+              {focusedObject.slug ? (
                 <button
                   type="button"
-                  onClick={() => handleActionClick(focusedObject.actionTarget)}
-                  className="btn-focus-primary"
+                  onClick={() => openProjectWorld(focusedObject.slug!)}
+                  className="btn-focus-primary btn-enter-world"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(99, 102, 241, 0.4))',
+                    border: '1px solid var(--color-cyan-glow)',
+                    boxShadow: '0 0 16px rgba(56, 189, 248, 0.3)',
+                  }}
                 >
-                  <span>{focusedObject.actionLabel}</span>
-                  <span className="focus-btn-arrow">➔</span>
+                  <span>ENTER WORLD</span>
+                  <span className="focus-btn-arrow">✦</span>
                 </button>
+              ) : (
+                focusedObject.actionLabel && focusedObject.actionTarget && (
+                  <button
+                    type="button"
+                    onClick={() => handleActionClick(focusedObject.actionTarget)}
+                    className="btn-focus-primary"
+                  >
+                    <span>{focusedObject.actionLabel}</span>
+                    <span className="focus-btn-arrow">➔</span>
+                  </button>
+                )
               )}
 
               <button
