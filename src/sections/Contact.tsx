@@ -1,11 +1,11 @@
 // src/sections/Contact.tsx
 /**
- * XEVRYN Cosmic Portfolio - Section 06: Contact & Horizon (ANM-053 to ANM-057)
- * Planet horizon dawn view, masked heading reveal, CTA block entrance,
+ * XEVRYN Cosmic Portfolio - Section: Send a Transmission (Contact & Horizon)
+ * Planet horizon dawn view, transmission console form, CTA actions,
  * magnetic button physics, and copy-email feedback.
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CopyEmail } from '@/components/ui/CopyEmail';
@@ -14,7 +14,9 @@ import { profileContent } from '@/content/profile';
 import { useMotion } from '@/app/providers/MotionProvider';
 import { useScene } from '@/app/providers/SceneProvider';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export const Contact: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,11 +24,13 @@ export const Contact: React.FC = () => {
   const { isReduced } = useMotion();
   const { updateCameraTarget } = useScene();
 
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [isTransmitted, setIsTransmitted] = useState(false);
+
   useEffect(() => {
     if (isReduced || !sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // ANM-054: Contact Heading Masked Reveal
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
@@ -45,28 +49,6 @@ export const Contact: React.FC = () => {
         );
       }
 
-      // ANM-055: CTA Block entrance
-      const ctaBlock = sectionRef.current?.querySelector('#contact-cta-block');
-      if (ctaBlock) {
-        gsap.fromTo(
-          ctaBlock,
-          { y: 12, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.45,
-            delay: 0.15,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top 70%',
-              once: true,
-            },
-          }
-        );
-      }
-
-      // ANM-053: Full Planet Horizon rise trigger
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top bottom',
@@ -93,35 +75,225 @@ export const Contact: React.FC = () => {
     return () => ctx.revert();
   }, [isReduced, updateCameraTarget]);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formState.email || !formState.message) return;
+
+    // Build mailto URI for clean client-side submission
+    const subject = encodeURIComponent(`[XEVRYN TRANSMISSION] Pesan dari ${formState.name || 'Pengunjung'}`);
+    const body = encodeURIComponent(
+      `Nama: ${formState.name}\nEmail: ${formState.email}\n\nPesan:\n${formState.message}`
+    );
+    window.location.href = `mailto:${profileContent.email}?subject=${subject}&body=${body}`;
+
+    setIsTransmitted(true);
+    setTimeout(() => {
+      setIsTransmitted(false);
+      setFormState({ name: '', email: '', message: '' });
+    }, 6000);
+  };
+
   return (
     <section
       id="contact"
       ref={sectionRef}
       className="section"
-      aria-label="Seksi Kontak: Inisiasi dan Komunikasi"
+      aria-label="Send a Transmission: Contact and Horizon"
       style={{ position: 'relative', overflow: 'hidden' }}
     >
       <div className="container">
-        <div className="calm-zone" style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto' }}>
-          <div className="section-eyebrow">// 11 · HORIZON TRANSMISI</div>
+        <div className="calm-zone" style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto' }}>
+          <div className="section-eyebrow">// 11 · SEND A TRANSMISSION</div>
 
-          {/* ANM-054: Masked Heading */}
           <div style={{ overflow: 'hidden', margin: '0 auto' }}>
             <h2
               id="contact-heading"
               ref={headingRef}
               className="section-title"
-              style={{ fontSize: 'clamp(32px, 6vw, 64px)' }}
+              style={{ fontSize: 'clamp(32px, 6vw, 60px)' }}
             >
-              Mulai Terhubung
+              SEND A TRANSMISSION
             </h2>
           </div>
 
-          <p className="text-muted" style={{ fontSize: '18px', maxWidth: '52ch', margin: '16px auto 32px', lineHeight: '1.7' }}>
-            Terbuka untuk diskusi, pertukaran ide, atau terhubung seputar proyek pengembangan web dan kegiatan digital.
+          <p className="text-muted" style={{ fontSize: '18px', maxWidth: '54ch', margin: '16px auto 36px', lineHeight: '1.7' }}>
+            Kirimkan sinyal transmisi untuk kolaborasi pengembangan web, proyek kreatif, atau pertukaran ide teknologi.
           </p>
 
-          {/* ANM-055: CTA Block with Email, WhatsApp & CopyEmail */}
+          {/* Interactive Transmission Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="cosmic-card transmission-form"
+            style={{
+              padding: '32px',
+              borderRadius: '16px',
+              border: '1px solid rgba(56, 189, 248, 0.3)',
+              background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(10, 14, 26, 0.95) 100%)',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(56, 189, 248, 0.05)',
+              backdropFilter: 'blur(16px)',
+              textAlign: 'left',
+              marginBottom: '36px',
+            }}
+          >
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+              <div>
+                <label
+                  htmlFor="contact-name"
+                  style={{
+                    display: 'block',
+                    fontSize: '11px',
+                    fontFamily: 'var(--font-mono)',
+                    color: 'var(--color-cyan-glow)',
+                    letterSpacing: '0.1em',
+                    marginBottom: '8px',
+                  }}
+                >
+                  NAME // PENGIRIM
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  placeholder="Nama atau alias Anda"
+                  value={formState.name}
+                  onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    background: 'rgba(5, 10, 20, 0.7)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '8px',
+                    color: '#f8fafc',
+                    fontFamily: 'inherit',
+                    fontSize: '14px',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--color-accent-blue)')}
+                  onBlur={(e) => (e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)')}
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="contact-email"
+                  style={{
+                    display: 'block',
+                    fontSize: '11px',
+                    fontFamily: 'var(--font-mono)',
+                    color: 'var(--color-cyan-glow)',
+                    letterSpacing: '0.1em',
+                    marginBottom: '8px',
+                  }}
+                >
+                  EMAIL // SALURAN RESPON *
+                </label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  required
+                  placeholder="nama@domain.com"
+                  value={formState.email}
+                  onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    background: 'rgba(5, 10, 20, 0.7)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '8px',
+                    color: '#f8fafc',
+                    fontFamily: 'inherit',
+                    fontSize: '14px',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--color-accent-blue)')}
+                  onBlur={(e) => (e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)')}
+                />
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              <label
+                htmlFor="contact-message"
+                style={{
+                  display: 'block',
+                  fontSize: '11px',
+                  fontFamily: 'var(--font-mono)',
+                  color: 'var(--color-cyan-glow)',
+                  letterSpacing: '0.1em',
+                  marginBottom: '8px',
+                }}
+              >
+                MESSAGE // ISI TRANSMISI *
+              </label>
+              <textarea
+                id="contact-message"
+                required
+                rows={4}
+                placeholder="Tuliskan pesan, penawaran proyek, atau sapaan Anda..."
+                value={formState.message}
+                onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '12px 14px',
+                  background: 'rgba(5, 10, 20, 0.7)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '8px',
+                  color: '#f8fafc',
+                  fontFamily: 'inherit',
+                  fontSize: '14px',
+                  outline: 'none',
+                  resize: 'vertical',
+                  boxSizing: 'border-box',
+                  transition: 'border-color 0.2s',
+                }}
+                onFocus={(e) => (e.target.style.borderColor = 'var(--color-accent-blue)')}
+                onBlur={(e) => (e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)')}
+              />
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{
+                  padding: '12px 28px',
+                  fontSize: '13px',
+                  fontFamily: 'var(--font-mono)',
+                  letterSpacing: '0.1em',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                }}
+              >
+                <span>TRANSMIT</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                </svg>
+              </button>
+
+              {isTransmitted && (
+                <div
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '13px',
+                    color: '#34d399',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                  role="status"
+                >
+                  <span>TRANSMISSION SENT ✓</span>
+                </div>
+              )}
+            </div>
+          </form>
+
+          {/* Quick Direct Channels */}
           <div
             id="contact-cta-block"
             style={{
@@ -132,25 +304,22 @@ export const Contact: React.FC = () => {
               flexWrap: 'wrap',
             }}
           >
-            {/* 1. Tombol Salin Email */}
             <CopyEmail email={profileContent.email} />
 
-            {/* 2. Tombol Kirim Email Langsung */}
             <Button
               variant="primary"
               asLink
               href={`mailto:${profileContent.email}`}
               magnetic={true}
-              aria-label={`Kirim pesan langsung ke ${profileContent.email}`}
+              aria-label={`Kirim email ke ${profileContent.email}`}
             >
-              <span>Kirim Email</span>
+              <span>Kirim Email Langsung</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
               </svg>
             </Button>
 
-            {/* 3. Tombol WhatsApp */}
             <a
               href={profileContent.whatsappUrl}
               target="_blank"
@@ -172,7 +341,7 @@ export const Contact: React.FC = () => {
             </a>
           </div>
 
-          {/* GitHub Accounts Display */}
+          {/* GitHub Repositories */}
           <div
             style={{
               marginTop: '40px',
@@ -196,7 +365,7 @@ export const Contact: React.FC = () => {
                 textTransform: 'uppercase',
               }}
             >
-              // Repositori &amp; Eksplorasi Kode
+              // REPOSITORI &amp; EKSPLORASI KODE
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -244,26 +413,6 @@ export const Contact: React.FC = () => {
                 <span>GitHub Kedua (xevryn16)</span>
               </a>
             </div>
-
-            <p style={{ fontSize: '12px', color: 'var(--color-text-dim)', margin: '10px 0 0 0', lineHeight: '1.5' }}>
-              *Daftar karya terpilih yang disepakati terangkum pada seksi Work.
-            </p>
-          </div>
-
-          <div style={{ marginTop: '36px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            <span
-              style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                background: 'var(--color-success)',
-                boxShadow: '0 0 8px rgba(34, 197, 94, 0.6)',
-              }}
-              aria-hidden="true"
-            />
-            <span style={{ fontSize: '13px', color: 'var(--color-text-dim)', fontFamily: 'var(--font-mono)' }}>
-              SALURAN TRANSMISI: TERSEDIA UNTUK KOMUNIKASI
-            </span>
           </div>
         </div>
       </div>

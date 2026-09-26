@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { experienceContent } from '@/content/experience';
+import { experienceContent, journeyTimeline } from '@/content/experience';
 import { useScene } from '@/app/providers/SceneProvider';
 import { useMotion } from '@/app/providers/MotionProvider';
 
@@ -57,7 +57,7 @@ export const Experience: React.FC = () => {
             opacity: 1,
             y: 0,
             duration: 0.8,
-            stagger: 0.15,
+            stagger: 0.12,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -88,23 +88,103 @@ export const Experience: React.FC = () => {
               aria-hidden="true"
             />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.12em', color: 'var(--color-accent-blue)' }}>
-              08 / PENGALAMAN KERJA
+              04 / EXPERIENCE &amp; JOURNEY
             </span>
           </div>
           <h2 id="experience-heading" className="section-title">
-            Pengalaman Kerja Nyata
+            Linimasa Pengalaman &amp; Perjalanan Nyata
           </h2>
           <p className="section-desc">
-            Rekam jejak kerja nyata yang membentuk ketelitian, fokus, dan dedikasi dalam setiap karya.
+            Dari dinamika kreatif di SMAN 3 Sumedang, ketelitian operasional di Coffee Street, hingga arsitektur rekayasa web modern.
           </p>
+        </div>
+
+        {/* Visual Category-Based Journey Timeline */}
+        <div
+          className="cosmic-timeline-wrapper"
+          style={{
+            marginTop: '36px',
+            marginBottom: '40px',
+            padding: '24px 28px',
+            background: 'rgba(15, 23, 42, 0.7)',
+            border: '1px solid rgba(56, 189, 248, 0.25)',
+            borderRadius: '14px',
+            backdropFilter: 'blur(14px)',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '11px',
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--color-cyan-glow)',
+              letterSpacing: '0.12em',
+              marginBottom: '16px',
+            }}
+          >
+            // LINIMASA MILESTONE PERJALANAN (CATEGORY-BASED TIMELINE)
+          </div>
+
+          <div
+            className="timeline-horizontal-scroll"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '16px',
+            }}
+          >
+            {journeyTimeline.map((item) => (
+              <div
+                key={item.id}
+                className="timeline-node-card"
+                style={{
+                  background: 'rgba(5, 10, 20, 0.6)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '10px',
+                  padding: '16px',
+                  position: 'relative',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '11px',
+                      color: 'var(--color-cyan-glow)',
+                      fontWeight: 700,
+                    }}
+                  >
+                    STEP {item.stage}
+                  </span>
+                  <span
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: item.type === 'creative' ? '#f43f5e' : item.type === 'work' ? '#f59e0b' : '#38bdf8',
+                    }}
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#f8fafc', margin: '0 0 4px 0' }}>
+                  {item.title}
+                </h3>
+                <div style={{ fontSize: '11px', color: 'var(--color-text-dim)', fontFamily: 'var(--font-mono)', marginBottom: '8px' }}>
+                  {item.role}
+                </div>
+                <p style={{ fontSize: '12px', color: '#94a3b8', lineHeight: '1.5', margin: 0 }}>
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Experience Timeline Grid with Orbit Coffee Break Accent */}
         <div
           ref={containerRef}
           style={{
-            maxWidth: '820px',
-            marginTop: '40px',
+            maxWidth: '860px',
             display: 'flex',
             flexDirection: 'column',
             gap: '24px',
@@ -132,12 +212,10 @@ export const Experience: React.FC = () => {
             </div>
 
             <div className="coffee-break-text">
-              <span className="break-badge">ORBIT COFFEE BREAK · SENTUHAN PERSONAL</span>
-              <h3 className="break-title">Ketelitian Barista di Ruang Gravitasi</h3>
+              <span className="break-badge">COFFEE STREET SUMEDANG · REAL-WORLD EXPERIENCE</span>
+              <h3 className="break-title">Ketelitian Barista &amp; Kasir di Bawah Tekanan</h3>
               <p className="break-desc">
-                Keahlian meracik minuman, menjaga standar rasa, dan melayani pelanggan secara cepat
-                dan cermat melatih ketenangan serta ketelitian yang saya bawa ke dalam setiap baris kode
-                dan tata letak antarmuka.
+                Pelayanan pelanggan yang ramah, ketelitian transaksi kasir, komunikasi aktif antarkru, serta ketenangan menghadapi alur pesanan yang padat melatih fokus dan dedikasi nyata.
               </p>
             </div>
           </div>
@@ -150,13 +228,15 @@ export const Experience: React.FC = () => {
                 padding: '28px 32px',
                 position: 'relative',
                 overflow: 'hidden',
-                border: '1px solid rgba(245, 158, 11, 0.3)',
-                background: 'linear-gradient(135deg, rgba(28, 18, 10, 0.95), rgba(12, 10, 18, 0.98))',
+                border: item.id === 'EXP-M3' ? '1px solid rgba(244, 63, 94, 0.35)' : '1px solid rgba(245, 158, 11, 0.35)',
+                background: item.id === 'EXP-M3'
+                  ? 'linear-gradient(135deg, rgba(28, 12, 20, 0.95), rgba(12, 10, 18, 0.98))'
+                  : 'linear-gradient(135deg, rgba(28, 18, 10, 0.95), rgba(12, 10, 18, 0.98))',
                 borderRadius: '12px',
                 backdropFilter: 'blur(16px)',
               }}
             >
-              {/* Accent Warm Amber Glow Line */}
+              {/* Accent Line */}
               <div
                 style={{
                   position: 'absolute',
@@ -164,7 +244,7 @@ export const Experience: React.FC = () => {
                   left: 0,
                   width: '4px',
                   height: '100%',
-                  background: 'linear-gradient(180deg, #f59e0b, #d97706)',
+                  background: item.id === 'EXP-M3' ? 'linear-gradient(180deg, #f43f5e, #be123c)' : 'linear-gradient(180deg, #f59e0b, #d97706)',
                 }}
                 aria-hidden="true"
               />
@@ -176,7 +256,7 @@ export const Experience: React.FC = () => {
                   </h3>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                     {item.organization && (
-                      <span style={{ fontSize: '14px', color: 'var(--color-cyan-glow)', fontFamily: 'var(--font-mono)' }}>
+                      <span style={{ fontSize: '14px', color: item.id === 'EXP-M3' ? '#f43f5e' : '#f59e0b', fontFamily: 'var(--font-mono)' }}>
                         {item.organization}
                       </span>
                     )}
@@ -188,24 +268,22 @@ export const Experience: React.FC = () => {
                   </div>
                 </div>
 
-                {item.period && (
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '12px',
-                      padding: '4px 10px',
-                      background: 'rgba(56, 189, 248, 0.1)',
-                      border: '1px solid rgba(56, 189, 248, 0.25)',
-                      borderRadius: '100px',
-                      color: 'var(--color-accent-blue)',
-                    }}
-                  >
-                    {item.period}
-                  </span>
-                )}
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '11px',
+                    padding: '4px 10px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '100px',
+                    color: '#e2e8f0',
+                  }}
+                >
+                  TERVERIFIKASI
+                </span>
               </div>
 
-              <p style={{ fontSize: '15px', lineHeight: '1.7', color: 'var(--color-text-dim)', margin: '0 0 20px 0' }}>
+              <p style={{ fontSize: '15px', lineHeight: '1.75', color: 'var(--color-text-dim)', margin: '0 0 20px 0' }}>
                 {item.description}
               </p>
 

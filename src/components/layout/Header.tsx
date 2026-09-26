@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { navLinks, stationLinks } from '@/content/links';
 import { MotionControl } from '@/components/ui/MotionControl';
 import { MobileMenu } from '@/components/layout/MobileMenu';
+import { useSound } from '@/app/providers/SoundProvider';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -10,6 +11,21 @@ export const Header: React.FC = () => {
   const [isStationMenuOpen, setIsStationMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [progress, setProgress] = useState(0);
+  const [logoClicks, setLogoClicks] = useState(0);
+  const { isMuted, toggleSound, playChime } = useSound();
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    const nextCount = logoClicks + 1;
+    setLogoClicks(nextCount);
+    if (nextCount >= 5) {
+      e.preventDefault();
+      setLogoClicks(0);
+      playChime();
+      window.location.hash = '#terminal';
+      const termEl = document.getElementById('terminal');
+      if (termEl) termEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +84,12 @@ export const Header: React.FC = () => {
       />
       <header id="site-header" className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container header-inner">
-          <a href="#hero" className="brand-logo" aria-label="XEVRYN Cosmic Portfolio Home">
+          <a
+            href="#hero"
+            onClick={handleLogoClick}
+            className="brand-logo"
+            aria-label="XEVRYN Cosmic Portfolio Home (Click 5 times for secret terminal)"
+          >
             <span className="brand-dot" aria-hidden="true" />
             <span>XEVRYN</span>
           </a>
@@ -187,7 +208,31 @@ export const Header: React.FC = () => {
               )}
             </div>
 
-            <div className="hidden-mobile" style={{ display: 'flex' }}>
+            <div className="hidden-mobile" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {/* Sound Toggle Button */}
+              <button
+                type="button"
+                onClick={toggleSound}
+                className="btn-sound-toggle"
+                style={{
+                  background: isMuted ? 'rgba(255, 255, 255, 0.05)' : 'rgba(56, 189, 248, 0.15)',
+                  border: isMuted ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(56, 189, 248, 0.4)',
+                  color: isMuted ? 'var(--color-text-dim)' : 'var(--color-cyan-glow)',
+                  borderRadius: '20px',
+                  padding: '4px 10px',
+                  fontSize: '11px',
+                  fontFamily: 'var(--font-mono)',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  transition: 'all 0.18s ease',
+                }}
+                aria-label={isMuted ? 'Turn ambient cosmic sound on' : 'Mute ambient sound'}
+              >
+                <span>{isMuted ? '🔇 SOUND OFF' : '🔊 SOUND ON'}</span>
+              </button>
+
               <MotionControl />
             </div>
 

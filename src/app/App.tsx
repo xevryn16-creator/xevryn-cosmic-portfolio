@@ -2,11 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { MotionProvider } from '@/app/providers/MotionProvider';
 import { SceneProvider } from '@/app/providers/SceneProvider';
+import { SoundProvider } from '@/app/providers/SoundProvider';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CosmicCanvas } from '@/scene/CosmicCanvas';
 import { FallbackPoster } from '@/components/scene/FallbackPoster';
+import { BootSequence } from '@/components/ui/BootSequence';
+import { InteractiveCursor } from '@/components/ui/InteractiveCursor';
 import { HomePage } from '@/pages/HomePage';
 import { ProjectPage } from '@/pages/ProjectPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -92,6 +95,40 @@ export const App: React.FC = () => {
     };
   }, []);
 
+  // Konami Code Easter Egg listener
+  useEffect(() => {
+    const konamiSequence = [
+      'ArrowUp',
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowLeft',
+      'ArrowRight',
+      'b',
+      'a',
+    ];
+    let currentIndex = 0;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === konamiSequence[currentIndex].toLowerCase()) {
+        currentIndex++;
+        if (currentIndex === konamiSequence.length) {
+          currentIndex = 0;
+          window.location.hash = '#terminal';
+          const el = document.getElementById('terminal');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        currentIndex = 0;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleInspectProject = (slug: string) => {
     window.location.hash = `#work/${slug}`;
   };
@@ -118,87 +155,95 @@ export const App: React.FC = () => {
 
   return (
     <MotionProvider>
-      <SceneProvider>
-        {/* Accessible Skip to Content Link */}
-        <SkipLink />
+      <SoundProvider>
+        <SceneProvider>
+          {/* Opening Boot Sequence */}
+          <BootSequence />
 
-        {/* WebGL 3D Celestial Background Canvas */}
-        <CosmicCanvas />
+          {/* Desktop Custom Interactive Cursor */}
+          <InteractiveCursor />
 
-        {/* Fallback CSS Poster (active when WebGL fails or Reduced Motion is selected) */}
-        <FallbackPoster />
+          {/* Accessible Skip to Content Link */}
+          <SkipLink />
 
-        {/* Persistent Top Header with Motion Switcher & Station Dropdown */}
-        <Header />
+          {/* WebGL 3D Celestial Background Canvas */}
+          <CosmicCanvas />
 
-        {/* Main Routed Content */}
-        {route.view === 'project' && (
-          <ProjectPage
-            slug={route.slug}
-            onBack={() => handleReturnToHome('work')}
-          />
-        )}
+          {/* Fallback CSS Poster (active when WebGL fails or Reduced Motion is selected) */}
+          <FallbackPoster />
 
-        {route.view === 'roblox-lab' && (
-          <RobloxLabPage
-            onBack={() => handleReturnToHome('roblox')}
-            onNavigatePlayground={() => handleNavigateStation('#playground')}
-          />
-        )}
+          {/* Persistent Top Header with Motion Switcher & Station Dropdown */}
+          <Header />
 
-        {route.view === 'atomic-hub' && (
-          <AtomicHubPage
-            onBack={() => handleReturnToHome('atomic-hub-section')}
-          />
-        )}
+          {/* Main Routed Content */}
+          {route.view === 'project' && (
+            <ProjectPage
+              slug={route.slug}
+              onBack={() => handleReturnToHome('work')}
+            />
+          )}
 
-        {route.view === 'playground' && (
-          <PlaygroundPage
-            onBack={() => handleReturnToHome()}
-          />
-        )}
+          {route.view === 'roblox-lab' && (
+            <RobloxLabPage
+              onBack={() => handleReturnToHome('roblox')}
+              onNavigatePlayground={() => handleNavigateStation('#playground')}
+            />
+          )}
 
-        {route.view === 'asset-station' && (
-          <AssetStationPage
-            onBack={() => handleReturnToHome()}
-          />
-        )}
+          {route.view === 'atomic-hub' && (
+            <AtomicHubPage
+              onBack={() => handleReturnToHome('atomic-hub-section')}
+            />
+          )}
 
-        {route.view === 'devlog' && (
-          <DevlogPage
-            onBack={() => handleReturnToHome()}
-            onSelectArticle={handleSelectDevlogArticle}
-          />
-        )}
+          {route.view === 'playground' && (
+            <PlaygroundPage
+              onBack={() => handleReturnToHome()}
+            />
+          )}
 
-        {route.view === 'devlog-detail' && (
-          <DevlogDetailPage
-            slug={route.slug}
-            onBack={() => handleNavigateStation('#devlog')}
-            onNavigateRoute={handleNavigateStation}
-          />
-        )}
+          {route.view === 'asset-station' && (
+            <AssetStationPage
+              onBack={() => handleReturnToHome()}
+            />
+          )}
 
-        {route.view === 'orbit-cafe' && (
-          <OrbitCafePage
-            onBack={() => handleReturnToHome('experience')}
-          />
-        )}
+          {route.view === 'devlog' && (
+            <DevlogPage
+              onBack={() => handleReturnToHome()}
+              onSelectArticle={handleSelectDevlogArticle}
+            />
+          )}
 
-        {route.view === 'not-found' && (
-          <NotFoundPage onReturn={() => handleReturnToHome()} />
-        )}
+          {route.view === 'devlog-detail' && (
+            <DevlogDetailPage
+              slug={route.slug}
+              onBack={() => handleNavigateStation('#devlog')}
+              onNavigateRoute={handleNavigateStation}
+            />
+          )}
 
-        {route.view === 'home' && (
-          <HomePage
-            onInspectProject={handleInspectProject}
-            onNavigateStation={handleNavigateStation}
-          />
-        )}
+          {route.view === 'orbit-cafe' && (
+            <OrbitCafePage
+              onBack={() => handleReturnToHome('experience')}
+            />
+          )}
 
-        {/* Footer with Celestial Coordinates and Back-to-Top */}
-        <Footer />
-      </SceneProvider>
+          {route.view === 'not-found' && (
+            <NotFoundPage onReturn={() => handleReturnToHome()} />
+          )}
+
+          {route.view === 'home' && (
+            <HomePage
+              onInspectProject={handleInspectProject}
+              onNavigateStation={handleNavigateStation}
+            />
+          )}
+
+          {/* Footer with Celestial Coordinates and Back-to-Top */}
+          <Footer />
+        </SceneProvider>
+      </SoundProvider>
     </MotionProvider>
   );
 };

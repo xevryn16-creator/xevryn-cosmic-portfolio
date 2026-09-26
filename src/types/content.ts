@@ -33,30 +33,60 @@ export interface ProjectContent {
   tags: string[];                  // Tag teknologi / bidang
   coverImage: string;              // Path gambar sampul utama
   galleryImages: string[];         // Daftar tangkapan layar galeri
+  problem?: string;                // Latar belakang / masalah
+  solution?: string;               // Pendekatan solusi
+  features?: string[];             // Fitur utama
   challenge: string;               // Tantangan teknis & masalah
   approach: string;                // Keputusan arsitektur & solusi
   outcome: string;                 // Hasil yang dapat dibuktikan secara faktual
   links: ProjectLink[];            // Tautan eksternal (hanya yang aktif)
+  celestialType?: 'sun' | 'rocky' | 'ocean' | 'gas_giant' | 'ringed' | 'nebula_planet' | 'satellite';
   status: ContentStatus;
 }
 
 export type SkillCategory =
+  | 'development'
+  | 'creative_media'
+  | 'exploring'
   | 'web'
   | 'roblox'
   | 'creative'
   | 'marketing'
-  | 'operations'
-  | 'graphics'
-  | 'engineering'
-  | 'architecture';
+  | 'operations';
 
 export interface SkillItem {
-  id: string;                      // ID keahlian (misal: 'SKL-WEB-REACT')
+  id: string;                      // ID keahlian (misal: 'SKL-DEV-REACT')
   label: string;                   // Nama teknologi / keahlian
   category: SkillCategory;
+  badge?: 'Exploring' | 'Learning' | 'Confirmed';
   description: string;             // Penjelasan aplikasi praktis berdasarkan fakta
   projectIds?: string[];           // ID proyek atau pengalaman terkait
   status: ContentStatus;
+}
+
+export interface Media3ArchiveItem {
+  id: string;
+  category: 'FILM' | 'VIDEO' | 'PRODUCTION' | 'MEDIA';
+  title: string;
+  role: string;
+  focus: string[];
+  description: string;
+  status: ContentStatus;
+  mediaPlaceholder: {
+    label: string;
+    aspectRatio: string;
+    colorAccent: string;
+  };
+}
+
+export interface LabItem {
+  id: string;
+  title: string;
+  category: 'AI' | 'AUTOMATION' | 'CYBERSECURITY' | 'WEBGL' | '3D' | 'ROBLOX';
+  status: 'BUILDING' | 'EXPERIMENTING' | 'LEARNING';
+  description: string;
+  technologies: string[];
+  notes?: string;
 }
 
 export interface FocusAreaItem {

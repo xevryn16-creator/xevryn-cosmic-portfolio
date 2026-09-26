@@ -27,12 +27,16 @@ export const Skills: React.FC = () => {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
+      case 'development':
       case 'web':
         return 'var(--color-cyan-glow)';
+      case 'creative_media':
+      case 'creative':
+        return '#f43f5e';
+      case 'exploring':
+        return '#a855f7';
       case 'roblox':
         return 'var(--color-nebula-violet)';
-      case 'creative':
-        return '#f472b6';
       case 'marketing':
         return '#f59e0b';
       case 'operations':
@@ -44,10 +48,16 @@ export const Skills: React.FC = () => {
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
+      case 'development':
+        return 'Development';
+      case 'creative_media':
+        return 'Creative Media';
+      case 'exploring':
+        return 'Exploring / Research';
       case 'web':
         return 'Pengembangan Web';
       case 'roblox':
-        return 'Roblox & Lua';
+        return 'Roblox & Luau';
       case 'creative':
         return 'Kreatif';
       case 'marketing':
@@ -257,14 +267,16 @@ export const Skills: React.FC = () => {
               <span
                 style={{
                   background: 'rgba(56, 189, 248, 0.1)',
-                  color: 'var(--color-cyan-glow)',
+                  color: selectedSkill.badge === 'Exploring' || selectedSkill.badge === 'Learning' ? '#c084fc' : 'var(--color-cyan-glow)',
+                  border: `1px solid ${selectedSkill.badge === 'Exploring' || selectedSkill.badge === 'Learning' ? 'rgba(192, 132, 252, 0.3)' : 'rgba(56, 189, 248, 0.2)'}`,
                   padding: '3px 8px',
                   borderRadius: 'var(--radius-xs)',
                   fontSize: '11px',
                   fontFamily: 'var(--font-mono)',
+                  letterSpacing: '0.06em',
                 }}
               >
-                TERVERIFIKASI
+                ● {selectedSkill.badge?.toUpperCase() || 'TERVERIFIKASI'}
               </span>
             </div>
 

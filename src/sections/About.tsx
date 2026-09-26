@@ -165,6 +165,68 @@ export const About: React.FC = () => {
                 </p>
               ))}
 
+              {/* Visual Storytelling Journey Trail */}
+              <div
+                style={{
+                  marginTop: '28px',
+                  padding: '16px 20px',
+                  background: 'rgba(15, 23, 42, 0.6)',
+                  border: '1px solid rgba(56, 189, 248, 0.2)',
+                  borderRadius: '12px',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: '11px',
+                    fontFamily: 'var(--font-mono)',
+                    color: 'var(--color-cyan-glow)',
+                    letterSpacing: '0.12em',
+                    marginBottom: '12px',
+                  }}
+                >
+                  // PERJALANAN EKSPLORASI KREATIF KE TEKNOLOGI
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    flexWrap: 'wrap',
+                    fontSize: '12px',
+                    fontFamily: 'var(--font-mono)',
+                  }}
+                >
+                  {[
+                    'SMAN 3 SUMEDANG',
+                    'MEDIA 3',
+                    'CREATIVE MEDIA',
+                    'WEB DEVELOPMENT',
+                    'DIGITAL PROJECTS',
+                    'COLLEGE',
+                    'XEVRYN',
+                  ].map((step, i, arr) => (
+                    <React.Fragment key={step}>
+                      <span
+                        style={{
+                          color: i === arr.length - 1 ? 'var(--color-cyan-glow)' : 'var(--color-text-main)',
+                          fontWeight: i === arr.length - 1 ? 700 : 500,
+                          background: i === arr.length - 1 ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                          padding: '3px 8px',
+                          borderRadius: '4px',
+                        }}
+                      >
+                        {step}
+                      </span>
+                      {i < arr.length - 1 && (
+                        <span style={{ color: 'var(--color-accent-blue)', opacity: 0.6 }} aria-hidden="true">
+                          →
+                        </span>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+
               {/* ANM-028: Metadata Pills */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '24px' }}>
                 {[

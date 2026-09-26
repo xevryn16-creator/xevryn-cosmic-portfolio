@@ -172,6 +172,35 @@ export const SunSource: React.FC = () => {
 
       {/* 4. Stellar Omni Illumination */}
       <pointLight color="#fef08a" intensity={4.5} distance={120} decay={1.5} />
+
+      {/* 5. Subtle Solar Flare / Emission Particles */}
+      <points>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            args={[
+              new Float32Array(
+                Array.from({ length: 90 * 3 }, (_, i) => {
+                  const angle = Math.random() * Math.PI * 2;
+                  const radius = 2.4 + Math.random() * 3.8;
+                  if (i % 3 === 0) return Math.cos(angle) * radius;
+                  if (i % 3 === 1) return Math.sin(angle) * radius;
+                  return (Math.random() - 0.5) * 2;
+                })
+              ),
+              3,
+            ]}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.16}
+          color="#fef08a"
+          transparent
+          opacity={0.8}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </points>
     </group>
   );
 };

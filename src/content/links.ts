@@ -8,16 +8,14 @@ export interface NavLinkItem {
 }
 
 export const navLinks: NavLinkItem[] = [
-  { label: 'Orbit', href: '#hero', id: 'hero' },
-  { label: 'Tentang', href: '#about', id: 'about' },
-  { label: 'Bidang', href: '#focus-areas', id: 'focus-areas' },
-  { label: 'Karya Web', href: '#work', id: 'work' },
-  { label: 'Roblox', href: '#roblox', id: 'roblox' },
-  { label: 'Pengalaman', href: '#experience', id: 'experience' },
-  { label: 'Keahlian', href: '#skills', id: 'skills' },
-  { label: 'Eksplorasi', href: '#exploration-deck', id: 'exploration-deck' },
-  { label: 'Stasiun Hub', href: '#space-hub-stations', id: 'space-hub-stations' },
-  { label: 'Kontak', href: '#contact', id: 'contact' },
+  { label: '01 ABOUT', href: '#about', id: 'about' },
+  { label: '02 EXPERIENCE', href: '#experience', id: 'experience' },
+  { label: '03 MEDIA 3', href: '#media3-archive', id: 'media3-archive' },
+  { label: '04 SKILLS', href: '#skills', id: 'skills' },
+  { label: '05 PROJECTS', href: '#work', id: 'work' },
+  { label: '06 LAB', href: '#xevryn-lab', id: 'xevryn-lab' },
+  { label: '07 TERMINAL', href: '#terminal', id: 'terminal' },
+  { label: '08 CONTACT', href: '#contact', id: 'contact' },
 ];
 
 export interface StationLinkItem {

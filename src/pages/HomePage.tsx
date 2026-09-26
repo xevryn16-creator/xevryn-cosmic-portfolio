@@ -4,14 +4,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Hero } from '@/sections/Hero';
 import { About } from '@/sections/About';
-import { FocusAreas } from '@/sections/FocusAreas';
+import { Experience } from '@/sections/Experience';
+import { Media3Archive } from '@/sections/Media3Archive';
+import { Skills } from '@/sections/Skills';
 import { Work } from '@/sections/Work';
-import { MoreProjects } from '@/sections/MoreProjects';
+import { ExplorationDeck } from '@/sections/ExplorationDeck';
 import { RobloxSection } from '@/sections/RobloxSection';
 import { AtomicHubSection } from '@/sections/AtomicHubSection';
-import { Experience } from '@/sections/Experience';
-import { Skills } from '@/sections/Skills';
-import { ExplorationDeck } from '@/sections/ExplorationDeck';
+import { XevrynLab } from '@/sections/XevrynLab';
+import { TerminalSection } from '@/sections/TerminalSection';
 import { SpaceHubStations } from '@/sections/SpaceHubStations';
 import { Contact } from '@/sections/Contact';
 import { SpaceHubNavigator } from '@/components/layout/SpaceHubNavigator';
@@ -35,10 +36,9 @@ export const HomePage: React.FC<HomePageProps> = ({
   const { setAmbientTone } = useScene();
 
   useEffect(() => {
-    // Gradual ambient atmosphere color shifts across the journey
     const triggers: ScrollTrigger[] = [];
 
-    // 1. Hero to Work: Deep space blue
+    // 1. Hero & About: Deep space blue
     triggers.push(
       ScrollTrigger.create({
         trigger: '#hero',
@@ -49,18 +49,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       })
     );
 
-    // 2. Roblox to Atomic: Cosmic violet
-    triggers.push(
-      ScrollTrigger.create({
-        trigger: '#roblox',
-        start: 'top 60%',
-        end: 'bottom 40%',
-        onEnter: () => setAmbientTone('violet'),
-        onEnterBack: () => setAmbientTone('violet'),
-      })
-    );
-
-    // 3. Experience (Barista): Warm coffee amber
+    // 2. Experience & Media 3: Warm amber tone
     triggers.push(
       ScrollTrigger.create({
         trigger: '#experience',
@@ -68,6 +57,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         end: 'bottom 40%',
         onEnter: () => setAmbientTone('amber'),
         onEnterBack: () => setAmbientTone('amber'),
+      })
+    );
+
+    // 3. Skills, Projects & Roblox: Cosmic violet
+    triggers.push(
+      ScrollTrigger.create({
+        trigger: '#skills',
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: () => setAmbientTone('violet'),
+        onEnterBack: () => setAmbientTone('violet'),
       })
     );
 
@@ -88,43 +88,46 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <main id="main-content" className="content-stack">
-      {/* 1. Hero (Orbit, Identitas XEVRYN, Scope Subtitle) */}
+      {/* 1. BOOT SEQUENCE & COSMIC HERO */}
       <Hero />
 
-      {/* 2. About (Identitas Daffa, Narasi Bio Terkonfirmasi) */}
+      {/* 2. WHO IS XEVRYN */}
       <About />
 
-      {/* 3. Bidang yang Saya Kerjakan (4 Pilar Aktivitas) */}
-      <FocusAreas />
-
-      {/* 4. Selected Web Projects (3 Karya Utama Web dalam Bingkai Monitor) */}
-      <Work onInspectProject={onInspectProject} />
-
-      {/* 5. More Projects (Inisiatif & Eksplorasi Lainnya) */}
-      <MoreProjects onInspectProject={onInspectProject} />
-
-      {/* 6. Roblox Development (Eksplorasi Studio & Lua/Luau) */}
-      <RobloxSection />
-
-      {/* 7. Atomic Roblox Hub (Content Creator & Pemasaran) */}
-      <AtomicHubSection />
-
-      {/* 8. Pengalaman Kerja (Barista & Kasir 11/12 coffe street Sumedang + Coffee Break in Orbit) */}
+      {/* 3. EXPERIENCE TIMELINE (SMAN 3 → Media 3 → Coffee Street → Web Dev) */}
       <Experience />
 
-      {/* 9. Skills Constellation (Matriks 5 Kelompok Kemampuan) */}
+      {/* 4. MEDIA 3 / CREATIVE ARCHIVE */}
+      <Media3Archive />
+
+      {/* 5. SKILL CONSTELLATION */}
       <Skills />
 
-      {/* 10. Exploration Deck (Fitur Interaktif Navigasi Tata Surya) */}
+      {/* 6. PROJECT SOLAR SYSTEM */}
+      <Work onInspectProject={onInspectProject} />
+
+      {/* 7. PROJECT EXPLORATION & CELESTIAL RADAR */}
       <ExplorationDeck />
 
-      {/* Stasiun Transit Modular Space Hub */}
+      {/* 8. ROBLOX / DIGITAL PLAYGROUND */}
+      <RobloxSection />
+
+      {/* 9. ATOMIC ROBLOX HUB */}
+      <AtomicHubSection />
+
+      {/* 10. XEVRYN LAB (AI, Automation, Cybersecurity, WebGL) */}
+      <XevrynLab />
+
+      {/* 11. DEVELOPER TERMINAL */}
+      <TerminalSection />
+
+      {/* 12. SPACE HUB STATIONS (Modular Transit) */}
       <SpaceHubStations onNavigateStation={onNavigateStation} />
 
-      {/* 11. Contact & Transmission Horizon (Lengkung Fajar & Kontak Terverifikasi) */}
+      {/* 13. SEND A TRANSMISSION (Contact & Ending Horizon) */}
       <Contact />
 
-      {/* Floating Mini Journey Jump Map & Easter Egg Signal Controls */}
+      {/* Mini Jump Map & Easter Egg Signal Controls */}
       <SpaceHubNavigator />
     </main>
   );

@@ -95,36 +95,43 @@ export const Hero: React.FC = () => {
           delay={0.2}
         />
 
-        {/* Confirmed Activity Scope Text */}
+        {/* Subtitle */}
         <div
           style={{
-            fontSize: 'clamp(17px, 2.4vw, 22px)',
+            fontSize: 'clamp(18px, 2.5vw, 24px)',
             color: 'var(--color-cyan-glow)',
             fontFamily: 'var(--font-mono)',
-            letterSpacing: '0.03em',
+            letterSpacing: '0.04em',
             margin: '16px 0 12px',
-            fontWeight: 500,
+            fontWeight: 600,
           }}
         >
-          Web Development · Roblox · Content Creation
+          Full Stack Web Developer · Creative Technologist
         </div>
 
         {/* Value Proposition Subtext */}
-        <p className="hero-subtext" style={{ margin: '0 0 28px', maxWidth: '52ch' }}>
-          {profileContent.bioShort}
+        <p className="hero-subtext" style={{ margin: '0 0 32px', maxWidth: '56ch', fontSize: '18px', lineHeight: '1.7' }}>
+          Building digital experiences across web development, creative media, automation, and emerging technology.
         </p>
 
-        {/* Primary and Secondary CTA */}
-        <div id="hero-cta-group" className="hero-actions" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+        {/* Primary and Secondary CTAs: EXPLORE WORK, VIEW EXPERIENCE, SEND TRANSMISSION */}
+        <div id="hero-cta-group" className="hero-actions" style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
           <Button variant="primary" asLink href="#work">
-            <span>Jelajahi Karya</span>
+            <span>EXPLORE WORK</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
               <path d="M7 17L17 7M17 7H7M17 7V17" />
             </svg>
           </Button>
 
-          <Button variant="secondary" asLink href="#about">
-            <span>Tentang Saya</span>
+          <Button variant="secondary" asLink href="#experience">
+            <span>VIEW EXPERIENCE</span>
+          </Button>
+
+          <Button variant="secondary" asLink href="#contact" style={{ borderColor: 'rgba(56, 189, 248, 0.4)' }}>
+            <span>SEND TRANSMISSION</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
           </Button>
         </div>
 
