@@ -1,6 +1,6 @@
 # 21 — Dokumen Serah Terima & Transisi Sesi (Handoff)
 
-Versi: 3.2 · Tanggal: 26 September 2026 · Status: V3 Phase 3 Complete (Identity + Experience + Media Archive + Skill Network)
+Versi: 4.0 · Tanggal: 26 September 2026 · Status: V3 Phase 4 Complete (Project Worlds + Case Study Engine)
 
 ---
 
@@ -11,45 +11,64 @@ Versi: 3.2 · Tanggal: 26 September 2026 · Status: V3 Phase 3 Complete (Identit
 - **Status Kode Runtime:** Terpasang & Aktif. Server pengujian lokal berjalan pada `http://localhost:5173/` (HTTP 200 OK).
 - **Hasil Verifikasi Kompilasi & Build:**
   - `npm run typecheck` → **0 Errors** (Exit Code 0).
-  - `npm run build` → **Sukses** (Exit Code 0, dist bundle teroptimasi dengan vendor splitting: `three`, `gsap`, `index`).
-- **Arsitektur XEVRYN UNIVERSE V3 (Phase 3):**
-  1. **Section Environment Profiles (`src/types/motion.ts`, `src/types/universe.ts`, `src/app/providers/SceneProvider.tsx`):**
-     - Tipe profil suasana semesta: `'cosmic' | 'identity' | 'timeline' | 'media' | 'skills'`.
-     - Otomatis tersinkronisasi via `setEnvironmentProfile` saat navigasi taktis atau scroll spy mendeteksi sektor aktif.
-     - Mengontrol modulasi kecepatan bintang, intensitas cahaya ambient, dan rona visual kosmik.
-  2. **Identity Archive & Developer DNA (`src/sections/About.tsx`):**
-     - Transformasi seksi About menjadi ruang arsip futuristik terapung (*Archival Chamber*).
-     - Identity Hero resmi: `XEVRYN`, `DAFFA ALFIE FEBRYAN`, `FULL STACK WEB DEVELOPER`, `CREATIVE TECHNOLOGIST`.
-     - 5 Dimensi Developer DNA: `BUILD`, `CREATE`, `EXPLORE`, `LEARN`, `EXPERIMENT` dengan relasi terverifikasi ke sektor semesta.
-     - Konstelasi Identitas interaktif: hover ekspansi simpul & pencerahan garis koneksi, klik melompat langsung ke sektor tujuan.
-  3. **Orbital Timeline & Waypoints (`src/sections/Experience.tsx`):**
-     - Transformasi linimasa vertikal biasa menjadi sistem orbital waypoints pesawat antariksa.
-     - 5 waypoint terverifikasi: SMAN 3 Sumedang, Media 3, 11/12 coffe street Sumedang, Web Development, Current Xevryn.
-     - Jalur rute lintasan bercahaya berdenyut (*route glow pulse line*).
-     - Reaksi kamera halus saat waypoint dikunci serta integrasi elemen stasiun *Orbit Coffee Break*.
-  4. **Creative Film Archive (`src/sections/Media3Archive.tsx`):**
-     - Tata visual ruang proyeksi gelap sinematik dengan strip film 35mm, perforasi sprocket, dan label arsip teknis.
-     - Sistem filter reel interaktif: `ALL`, `FILM`, `VIDEO`, `PRODUCTION`, `MEDIA`.
-     - Pemutar arsip sinematik fullscreen (*modal viewer*) dengan kontrol keyboard (`ArrowLeft`, `ArrowRight`, `Escape`).
-     - State placeholder terencana dan jujur: `ARCHIVE FRAME // AWAITING ORIGINAL MEDIA` tanpa rekayasa foto fiktif.
-  5. **Xevryn Skill Network (`src/sections/Skills.tsx`):**
-     - Grafik relasi kemampuan berbasis data riil tanpa persentase kemahiran fiktif.
-     - 4 Kategori: Development, Creative Media, Exploring, Roblox & Operations.
-     - Hover simpul: ekspansi ukuran, pencerahan garis relasi, penyorotan proyek terhubung, dan peredupan simpul tak terkait.
-     - Klik fokus: mengunci simpul, mendekatkan kamera secara halus, menampilkan panel bukti karya terhubung, tombol `[ EXIT SKILL FOCUS ]`, dan shortcut keyboard `ESC`.
+  - `npm run build` → **Sukses** (Exit Code 0, 138 modules, 10.19s).
+- **Commit Terakhir:** `c469dca` — `feat: build v3 project worlds and case study engine`
 
 ---
 
-## 2. Hasil Audit Kompilasi & Build
+## 2. Arsitektur V3 Phase 4 yang Berhasil Diimplementasikan
+
+### 2.1 Types & Data
+- **`src/types/content.ts`** — Ditambah: `ProjectArchitectureNode`, `ProjectArchitectureLink`, `ProjectArchitectureData`, `ProjectWorldConfig`, dan field `architecture?: ProjectArchitectureData` di `ProjectContent`.
+- **`src/content/projectWorlds.ts`** *(baru)* — Config dunia & arsitektur terverifikasi untuk 8 proyek berdasarkan data faktual dari `projects.ts` tanpa halusinasi.
+
+### 2.2 Komponen Baru
+- **`src/components/projects/ProjectArchitecture.tsx`** *(baru)* — Visualisasi arsitektur node-link interaktif: hover edge glow, inspeksi node aktif, layout grid responsif.
+- **`src/components/projects/CaseStudyDrawer.tsx`** *(baru)* — Mission control case study drawer: tab (Ikhtisar, Arsitektur, Fitur, Tantangan, Galeri), navigasi antar proyek (Prev/Next), integrasi Skill Network, keyboard ESC.
+
+### 2.3 Integrasi Universe
+- **`src/app/providers/UniverseProvider.tsx`** — Ditambah: `openProjectWorld(slug)`, `closeProjectWorld()`, `activeProjectWorld`, mount `<CaseStudyDrawer>` langsung di dalam provider, ESC key handler untuk menutup drawer.
+- **`src/components/universe/UniverseHUD.tsx`** — HUD fokus proyek sekarang menampilkan `[ ENTER WORLD ]` dengan efek glow; hover crosshair menampilkan `PROJECT DETECTED`; fungsi `handleActionClick` diarahkan ke `openProjectWorld` untuk `#work/` links.
+
+### 2.4 Project Constellation 2.0
+- **`src/sections/Work.tsx`** — Ditingkatkan: filter kategori (ALL/WEB/AI-AUTO/ROBLOX/CREATIVE), search input, radar orbit wired ke `openProjectWorld`, ProjectTrack menerima filtered projects.
+
+### 2.5 CSS
+- **`src/styles/universe.css`** — Ditambah seksi 7 (Phase 4): `.case-study-overlay`, `.case-study-drawer`, terminal bar, command dock, nav tabs, architecture panel, stack pills, features list, challenges stack, constellation controls, responsive & reduced-motion overrides.
+
+---
+
+## 3. Audit Kompilasi & Build
 
 - `npm run typecheck` → **0 Errors**
-- `npm run build` → **Sukses** (Output bundle teroptimasi di `dist/` dalam 13.08s)
-- Local dev server aktif di port 5173 (`http://localhost:5173/`, HTTP 200 OK)
+- `npm run build` → **Sukses** (138 modules transformed, build 10.19s)
+- Local dev server aktif di port 5173
 
 ---
 
-## 3. Status Git & Deployment
+## 4. Status Git & Deployment
 
 - Branch: `main`
 - Origin Remote: `https://github.com/xevryn16-creator/xevryn-cosmic-portfolio.git`
-- Source of Truth Repositori: `xevryn16-creator/xevryn-cosmic-portfolio`
+- Commit: `c469dca` pushed to origin main
+
+---
+
+## 5. Catatan Sesi Sebelumnya (Phase 3 Summary)
+
+Phase 3 selesai pada commit `9cf0261`:
+- Identity Archive & Developer DNA (About.tsx)
+- Orbital Experience Timeline (Experience.tsx)
+- Media 3 Creative Film Archive (Media3Archive.tsx)
+- Xevryn Skill Network (Skills.tsx)
+- Environment Profiles & section-aware atmosphere
+
+---
+
+## 6. Task Selanjutnya yang Potensial (Phase 5+)
+
+- **Deep Link `#work/:slug`** — Saat URL mengandung hash work slug, langsung `openProjectWorld(slug)` alih-alih merender `ProjectPage` lama.
+- **Devlog Integration** — Menautkan devlog artikel ke proyek via CaseStudyDrawer.
+- **SEO & Meta Tags** — OG/Twitter meta untuk setiap proyek world.
+- **Performance Audit** — Lighthouse CI + Core Web Vitals gate.
+- **Deploy** — GitHub Pages atau Netlify/Vercel deploy.
