@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="600" fill="#070913" rx="16" />
+  <text x="40" y="50" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="20" font-weight="700">XEVRYN ORBIT ICONS PACK (SVG)</text>
+  <text x="40" y="75" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">Lisensi: MIT · Orisinal karya XEVRYN · Bebas untuk proyek pribadi dan komersial</text>
+
+  <!-- Icon 1: Planetary Orbit -->
+  <g transform="translate(60, 120)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <circle cx="70" cy="70" r="18" fill="url(#cyanGrad)" />
+    <ellipse cx="70" cy="70" rx="48" ry="18" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 4" transform="rotate(-25 70 70)" />
+    <circle cx="108" cy="52" r="6" fill="#f8fafc" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Orbit Ring</text>
+  </g>
+
+  <!-- Icon 2: Rocket Scout -->
+  <g transform="translate(240, 120)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <!-- Rocket fuselage -->
+    <path d="M70 30 C58 55 56 80 56 95 L84 95 C84 80 82 55 70 30 Z" fill="#f8fafc" />
+    <circle cx="70" cy="62" r="5" fill="#0284c7" />
+    <path d="M56 85 L44 98 L56 96 Z" fill="url(#purpleGrad)" />
+    <path d="M84 85 L96 98 L84 96 Z" fill="url(#purpleGrad)" />
+    <path d="M64 96 L70 112 L76 96 Z" fill="url(#amberGrad)" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Rocket Scout</text>
+  </g>
+
+  <!-- Icon 3: Space Helmet / Astronaut -->
+  <g transform="translate(420, 120)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <circle cx="70" cy="65" r="32" fill="#e2e8f0" />
+    <rect x="50" y="52" width="40" height="24" rx="12" fill="url(#cyanGrad)" />
+    <path d="M54 58 Q60 54 68 54" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" />
+    <rect x="44" y="92" width="52" height="14" rx="4" fill="#64748b" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Cosmic Helmet</text>
+  </g>
+
+  <!-- Icon 4: Satellite Array -->
+  <g transform="translate(600, 120)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <rect x="58" y="52" width="24" height="28" rx="4" fill="#e2e8f0" stroke="#38bdf8" stroke-width="1.5" />
+    <rect x="22" y="56" width="30" height="20" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
+    <line x1="32" y1="56" x2="32" y2="76" stroke="#0ea5e9" />
+    <line x1="42" y1="56" x2="42" y2="76" stroke="#0ea5e9" />
+    <rect x="88" y="56" width="30" height="20" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
+    <line x1="98" y1="56" x2="98" y2="76" stroke="#0ea5e9" />
+    <line x1="108" y1="56" x2="108" y2="76" stroke="#0ea5e9" />
+    <line x1="70" y1="52" x2="70" y2="38" stroke="#f8fafc" stroke-width="2" />
+    <circle cx="70" cy="36" r="3" fill="url(#amberGrad)" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Orbital Satellite</text>
+  </g>
+
+  <!-- Icon 5: Zero-G Coffee Cup -->
+  <g transform="translate(60, 300)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <path d="M50 50 L90 50 L84 86 C84 92 78 96 70 96 C62 96 56 92 56 86 Z" fill="url(#amberGrad)" />
+    <path d="M90 58 Q102 58 102 70 Q102 82 86 82" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
+    <!-- Steam wave in zero gravity -->
+    <path d="M62 44 Q66 34 60 26" fill="none" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round" opacity="0.7" />
+    <path d="M70 42 Q74 30 68 22" fill="none" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round" opacity="0.8" />
+    <path d="M78 44 Q82 34 76 26" fill="none" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round" opacity="0.7" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Zero-G Coffee</text>
+  </g>
+
+  <!-- Icon 6: Deep Space Telescope -->
+  <g transform="translate(240, 300)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <g transform="rotate(-35 70 70)">
+      <rect x="45" y="60" width="50" height="20" rx="3" fill="#cbd5e1" />
+      <rect x="95" y="56" width="8" height="28" rx="2" fill="url(#cyanGrad)" />
+      <circle cx="42" cy="70" r="5" fill="#475569" />
+    </g>
+    <line x1="70" y1="75" x2="52" y2="105" stroke="#94a3b8" stroke-width="2" />
+    <line x1="70" y1="75" x2="88" y2="105" stroke="#94a3b8" stroke-width="2" />
+    <line x1="70" y1="75" x2="70" y2="108" stroke="#64748b" stroke-width="2" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Telescope</text>
+  </g>
+
+  <!-- Icon 7: Asteroid Mineral -->
+  <g transform="translate(420, 300)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <polygon points="70,35 98,52 92,88 64,100 42,80 48,48" fill="#64748b" stroke="#94a3b8" stroke-width="2" />
+    <circle cx="62" cy="62" r="6" fill="#475569" />
+    <circle cx="80" cy="74" r="4" fill="#334155" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Asteroid Core</text>
+  </g>
+
+  <!-- Icon 8: Solar Pulsar -->
+  <g transform="translate(600, 300)">
+    <rect width="140" height="140" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <circle cx="70" cy="68" r="20" fill="url(#amberGrad)" />
+    <!-- Pulsar rays -->
+    <line x1="70" y1="36" x2="70" y2="44" stroke="#fde047" stroke-width="3" stroke-linecap="round" />
+    <line x1="70" y1="92" x2="70" y2="100" stroke="#fde047" stroke-width="3" stroke-linecap="round" />
+    <line x1="38" y1="68" x2="46" y2="68" stroke="#fde047" stroke-width="3" stroke-linecap="round" />
+    <line x1="94" y1="68" x2="102" y2="68" stroke="#fde047" stroke-width="3" stroke-linecap="round" />
+    <text x="70" y="125" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Solar Pulsar</text>
+  </g>
+
+  <!-- Footer license watermark -->
+  <text x="400" y="555" fill="#475569" font-family="system-ui" font-size="12" text-anchor="middle">Designed for XEVRYN Space Hub · https://github.com/alfiedafa3</text>
+</svg>

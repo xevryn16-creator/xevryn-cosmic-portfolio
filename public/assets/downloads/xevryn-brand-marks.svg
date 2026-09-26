@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+  <defs>
+    <linearGradient id="brandCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="450" fill="#080c1b" rx="16" />
+
+  <text x="50" y="55" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="20" font-weight="700">XEVRYN BRAND MARKS & MONOGRAMS</text>
+  <text x="50" y="80" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">Format: SVG Vector · Lisensi: MIT · Orisinal karya XEVRYN</text>
+
+  <!-- Mark 1: Cosmic Diamond X -->
+  <g transform="translate(100, 140)">
+    <rect x="-60" y="-10" width="120" height="130" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <path d="M-24 15 L24 85 M24 15 L-24 85" stroke="url(#brandCyan)" stroke-width="8" stroke-linecap="round" />
+    <circle cx="0" cy="50" r="10" fill="#f8fafc" />
+    <circle cx="0" cy="50" r="4" fill="#0284c7" />
+    <text x="0" y="105" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Diamond X</text>
+  </g>
+
+  <!-- Mark 2: Orbit Badge -->
+  <g transform="translate(250, 140)">
+    <rect x="-60" y="-10" width="120" height="130" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <circle cx="0" cy="50" r="32" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8 4" />
+    <circle cx="0" cy="50" r="14" fill="#c084fc" />
+    <circle cx="22" cy="28" r="6" fill="#f8fafc" />
+    <text x="0" y="105" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Orbital Node</text>
+  </g>
+
+  <!-- Mark 3: Hexagonal Crest -->
+  <g transform="translate(400, 140)">
+    <rect x="-60" y="-10" width="120" height="130" fill="#0f172a" stroke="#1e293b" rx="12" />
+    <polygon points="0,15 32,32 32,68 0,85 -32,68 -32,32" fill="none" stroke="#38bdf8" stroke-width="3" />
+    <text x="0" y="56" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="18" font-weight="900" text-anchor="middle">X</text>
+    <text x="0" y="105" fill="#94a3b8" font-family="system-ui" font-size="11" text-anchor="middle">Hex Monogram</text>
+  </g>
+
+  <!-- Full Wordmark Preview -->
+  <g transform="translate(300, 340)">
+    <rect x="-240" y="-25" width="480" height="70" fill="#0b1329" stroke="#1e293b" rx="10" />
+    <text x="0" y="14" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="28" font-weight="800" letter-spacing="8" text-anchor="middle">X E V R Y N</text>
+    <text x="0" y="32" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" letter-spacing="4" text-anchor="middle">COSMIC DIGITAL LAB</text>
+  </g>
+</svg>

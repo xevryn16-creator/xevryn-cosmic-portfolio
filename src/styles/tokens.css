@@ -1,0 +1,90 @@
+/* src/styles/tokens.css */
+:root {
+  /* Palet Warna Kosmik */
+  --color-space: #05050A;          /* Latar belakang kanvas kosmik utama */
+  --color-surface: #0E1322;        /* Permukaan solid panel, kartu, dan menu */
+  --color-surface-glass: rgba(14, 19, 34, 0.78); /* Kaca gelap dengan backdrop blur */
+  --color-surface-hover: #161F36;  /* Keadaan hover pada elemen kartu */
+  --color-border: #242E46;         /* Garis batas, pemisah, dan garis orbit */
+  --color-border-glow: rgba(107, 159, 255, 0.35); /* Pendaran batas saat aktif */
+
+  /* Tipografi & Kontras */
+  --color-text-main: #F8FAFC;      /* Teks primer, heading, kontras bintang */
+  --color-text-muted: #94A3B8;     /* Teks sekunder, deskripsi, metadata */
+  --color-text-dim: #64748B;       /* Label kecil, placeholder */
+
+  /* Aksen & Atmosfer */
+  --color-accent-blue: #60A5FA;    /* Aksen interaksi, tautan, rim light */
+  --color-accent-glow: rgba(96, 165, 250, 0.5);
+  --color-nebula-violet: #A855F7;  /* Aksen gas kosmik dan status istimewa */
+  --color-cyan-glow: #38BDF8;      /* Interstellar cyan */
+  --color-star-gold: #FCD34D;      /* Warna bintang fajar */
+  --color-danger: #EF4444;         /* Status kegagalan / kesalahan */
+  --color-success: #22C55E;        /* Status sukses salin email */
+
+  /* Skala Spasi Konsisten */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Radius Sudut */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Batas Layout & Gutter */
+  --content-max-width: 1400px;
+  --gutter-mobile: 20px;
+  --gutter-tablet: 32px;
+  --gutter-desktop: 64px;
+
+  /* Lapisan Kedalaman (Z-Index Layering) */
+  --z-canvas: 0;
+  --z-poster-fallback: 1;
+  --z-content: 10;
+  --z-header: 30;
+  --z-menu-modal: 50;
+  --z-toast: 60;
+  --z-skip-link: 100;
+
+  /* Transisi Konsisten */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dynamic Ambient Tone Transitions */
+html[data-ambient-tone="deep_blue"] {
+  --ambient-bg-tint: rgba(2, 6, 23, 0.25);
+}
+html[data-ambient-tone="violet"] {
+  --ambient-bg-tint: rgba(28, 12, 48, 0.45);
+}
+html[data-ambient-tone="amber"] {
+  --ambient-bg-tint: rgba(45, 25, 8, 0.45);
+}
+html[data-ambient-tone="dawn"] {
+  --ambient-bg-tint: rgba(14, 22, 40, 0.35);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--ambient-bg-tint, transparent);
+  pointer-events: none;
+  z-index: 2;
+  transition: background 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="deepVoid" cx="50%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#0a1026" />
+      <stop offset="50%" stop-color="#050712" />
+      <stop offset="100%" stop-color="#020307" />
+    </radialGradient>
+    <radialGradient id="nebulaCyan" cx="25%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.32" />
+      <stop offset="60%" stop-color="#0369a1" stop-opacity="0.10" />
+      <stop offset="100%" stop-color="#050712" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="nebulaMagenta" cx="75%" cy="35%" r="50%">
+      <stop offset="0%" stop-color="#9333ea" stop-opacity="0.28" />
+      <stop offset="55%" stop-color="#6b21a8" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#050712" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="horizonGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+      <stop offset="25%" stop-color="#0284c7" stop-opacity="0.5" />
+      <stop offset="70%" stop-color="#032b50" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#020307" stop-opacity="0" />
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="20%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Deep space base -->
+  <rect width="1920" height="1080" fill="url(#deepVoid)" />
+
+  <!-- Dual Nebula Glows -->
+  <circle cx="480" cy="420" r="600" fill="url(#nebulaCyan)" />
+  <circle cx="1440" cy="380" r="700" fill="url(#nebulaMagenta)" />
+
+  <!-- Distant Golden Star / Sun -->
+  <circle cx="1280" cy="240" r="140" fill="url(#sunGlow)" />
+  <circle cx="1280" cy="240" r="16" fill="#ffffff" />
+
+  <!-- Stars scattering -->
+  <g fill="#ffffff">
+    <circle cx="120" cy="180" r="1.5" opacity="0.8" />
+    <circle cx="280" cy="95" r="2.2" opacity="0.9" fill="#38bdf8" />
+    <circle cx="450" cy="220" r="1.2" opacity="0.6" />
+    <circle cx="620" cy="140" r="2.8" opacity="0.9" />
+    <circle cx="780" cy="280" r="1.4" opacity="0.7" />
+    <circle cx="950" cy="110" r="2.0" opacity="0.8" fill="#fef08a" />
+    <circle cx="1120" cy="290" r="1.2" opacity="0.5" />
+    <circle cx="1480" cy="160" r="2.4" opacity="0.9" fill="#c084fc" />
+    <circle cx="1650" cy="240" r="1.8" opacity="0.8" />
+    <circle cx="1820" cy="110" r="2.5" opacity="0.9" fill="#38bdf8" />
+    <circle cx="210" cy="420" r="1.6" opacity="0.7" />
+    <circle cx="390" cy="540" r="2.0" opacity="0.8" />
+    <circle cx="840" cy="480" r="1.4" opacity="0.6" />
+    <circle cx="1560" cy="520" r="2.2" opacity="0.85" />
+    <circle cx="1740" cy="430" r="1.5" opacity="0.7" />
+  </g>
+
+  <!-- Distant Saturn-like Ringed Planet -->
+  <g transform="translate(360, 260) rotate(-18)">
+    <circle cx="0" cy="0" r="42" fill="#ad966d" />
+    <ellipse cx="0" cy="0" rx="90" ry="14" fill="none" stroke="#e2d4be" stroke-width="6" opacity="0.85" />
+    <ellipse cx="0" cy="0" rx="66" ry="10" fill="none" stroke="#050712" stroke-width="2" />
+  </g>
+
+  <!-- Planet Horizon Curvature at Bottom -->
+  <path d="M -200 1080 Q 960 760 2120 1080 Z" fill="#040817" />
+  <path d="M -200 1080 Q 960 760 2120 1080" fill="none" stroke="url(#horizonGlow)" stroke-width="6" />
+
+  <!-- Monogram Logo Overlay in Bottom Right -->
+  <g transform="translate(1760, 990)" opacity="0.4">
+    <text x="0" y="0" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="20" font-weight="800" letter-spacing="4">XEVRYN</text>
+    <text x="0" y="16" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" letter-spacing="2">SPACE HUB 1920x1080</text>
+  </g>
+</svg>

@@ -1,0 +1,104 @@
+/* src/styles/typography.css */
+
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Tipografi Fluida */
+  --font-hero: clamp(52px, 12vw, 150px);
+  --font-h1: clamp(36px, 7vw, 84px);
+  --font-h2: clamp(28px, 5vw, 56px);
+  --font-h3: clamp(20px, 3.5vw, 32px);
+  --font-body-large: clamp(18px, 2vw, 22px);
+  --font-body: 16px;
+  --font-small: 14px;
+  --font-mono-tag: 12px;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-body);
+  line-height: 1.6;
+  color: var(--color-text-main);
+  background-color: var(--color-space);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--color-text-main);
+  margin: 0;
+}
+
+.hero-title {
+  font-size: var(--font-hero);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--font-mono-tag);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent-blue);
+  margin-bottom: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hero-subtext {
+  font-size: var(--font-body-large);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 54ch;
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.section-title {
+  font-size: var(--font-h2);
+  margin-bottom: var(--space-4);
+}
+
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--font-mono-tag);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-cyan-glow);
+  margin-bottom: var(--space-2);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-dim {
+  color: var(--color-text-dim);
+}
+
+.max-readable {
+  max-width: 65ch;
+}
+
+/* Accessibility: Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

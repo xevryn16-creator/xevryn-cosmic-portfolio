@@ -1,0 +1,8 @@
+# robots.txt for XEVRYN Cosmic Portfolio
+User-agent: *
+Allow: /
+
+# Sitemap configuration:
+# Catatan Rilis: Domain produksi resmi belum ditentukan oleh pemilik.
+# Tambahkan URL sitemap lengkap setelah domain produksi definitif didelegasikan.
+# Sitemap: https://[YOUR_PRODUCTION_DOMAIN]/sitemap.xml
