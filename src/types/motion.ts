@@ -39,6 +39,10 @@ export interface SceneStateRef {
     astronautWaveUntil?: number;
     satellitePulseUntil?: number;
     ambientTone?: 'deep_blue' | 'violet' | 'amber' | 'dawn';
+    navigationMode?: 'cinematic' | 'explore';
+    exploreTilt?: { x: number; y: number };
+    isTransitioning?: boolean;
+    currentLocation?: string;
   };
 }
 

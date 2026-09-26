@@ -1,7 +1,7 @@
-// src/components/layout/MobileMenu.tsx
 import React, { useEffect, useRef } from 'react';
 import { navLinks, stationLinks } from '@/content/links';
 import { MotionControl } from '@/components/ui/MotionControl';
+import { useUniverse } from '@/app/providers/UniverseProvider';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -11,6 +11,7 @@ interface MobileMenuProps {
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const { openUniverseMap } = useUniverse();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -87,6 +88,36 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       </div>
 
       <nav aria-label="Mobile Navigation Links">
+        {/* Universe Star Map Direct Access */}
+        <div style={{ marginBottom: '16px' }}>
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              setTimeout(() => openUniverseMap(), 150);
+            }}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '10px 14px',
+              background: 'rgba(56, 189, 248, 0.14)',
+              border: '1px solid rgba(56, 189, 248, 0.4)',
+              borderRadius: '8px',
+              color: 'var(--color-cyan-glow)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '12px',
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            <span>🗺️</span>
+            <span>BUKA PETA BINTANG (STAR MAP)</span>
+          </button>
+        </div>
+
         <ul className="mobile-nav-list">
           {navLinks.map((link) => (
             <li key={link.id}>

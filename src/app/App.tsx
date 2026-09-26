@@ -3,6 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { MotionProvider } from '@/app/providers/MotionProvider';
 import { SceneProvider } from '@/app/providers/SceneProvider';
 import { SoundProvider } from '@/app/providers/SoundProvider';
+import { UniverseProvider } from '@/app/providers/UniverseProvider';
+import { useUniverseKeyboard } from '@/hooks/useUniverseKeyboard';
+import { UniverseMap } from '@/components/universe/UniverseMap';
+import { UniverseHUD } from '@/components/universe/UniverseHUD';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -73,6 +77,11 @@ function resolveCurrentRoute(): RouteState {
   // Default: Home Page
   return { view: 'home' };
 }
+
+const UniverseKeyboardListener: React.FC = () => {
+  useUniverseKeyboard();
+  return null;
+};
 
 export const App: React.FC = () => {
   const [route, setRoute] = useState<RouteState>(resolveCurrentRoute);
@@ -157,91 +166,102 @@ export const App: React.FC = () => {
     <MotionProvider>
       <SoundProvider>
         <SceneProvider>
-          {/* Opening Boot Sequence */}
-          <BootSequence />
+          <UniverseProvider>
+            {/* Global Universe Keyboard Shortcuts (1-8, M, E, ESC) */}
+            <UniverseKeyboardListener />
 
-          {/* Desktop Custom Interactive Cursor */}
-          <InteractiveCursor />
+            {/* Interactive Universe Star Map Overlay */}
+            <UniverseMap />
 
-          {/* Accessible Skip to Content Link */}
-          <SkipLink />
+            {/* Futuristic Universe Navigation HUD */}
+            <UniverseHUD />
 
-          {/* WebGL 3D Celestial Background Canvas */}
-          <CosmicCanvas />
+            {/* Opening Boot Sequence */}
+            <BootSequence />
 
-          {/* Fallback CSS Poster (active when WebGL fails or Reduced Motion is selected) */}
-          <FallbackPoster />
+            {/* Desktop Custom Interactive Cursor */}
+            <InteractiveCursor />
 
-          {/* Persistent Top Header with Motion Switcher & Station Dropdown */}
-          <Header />
+            {/* Accessible Skip to Content Link */}
+            <SkipLink />
 
-          {/* Main Routed Content */}
-          {route.view === 'project' && (
-            <ProjectPage
-              slug={route.slug}
-              onBack={() => handleReturnToHome('work')}
-            />
-          )}
+            {/* WebGL 3D Celestial Background Canvas */}
+            <CosmicCanvas />
 
-          {route.view === 'roblox-lab' && (
-            <RobloxLabPage
-              onBack={() => handleReturnToHome('roblox')}
-              onNavigatePlayground={() => handleNavigateStation('#playground')}
-            />
-          )}
+            {/* Fallback CSS Poster (active when WebGL fails or Reduced Motion is selected) */}
+            <FallbackPoster />
 
-          {route.view === 'atomic-hub' && (
-            <AtomicHubPage
-              onBack={() => handleReturnToHome('atomic-hub-section')}
-            />
-          )}
+            {/* Persistent Top Header with Motion Switcher & Station Dropdown */}
+            <Header />
 
-          {route.view === 'playground' && (
-            <PlaygroundPage
-              onBack={() => handleReturnToHome()}
-            />
-          )}
+            {/* Main Routed Content */}
+            {route.view === 'project' && (
+              <ProjectPage
+                slug={route.slug}
+                onBack={() => handleReturnToHome('work')}
+              />
+            )}
 
-          {route.view === 'asset-station' && (
-            <AssetStationPage
-              onBack={() => handleReturnToHome()}
-            />
-          )}
+            {route.view === 'roblox-lab' && (
+              <RobloxLabPage
+                onBack={() => handleReturnToHome('roblox')}
+                onNavigatePlayground={() => handleNavigateStation('#playground')}
+              />
+            )}
 
-          {route.view === 'devlog' && (
-            <DevlogPage
-              onBack={() => handleReturnToHome()}
-              onSelectArticle={handleSelectDevlogArticle}
-            />
-          )}
+            {route.view === 'atomic-hub' && (
+              <AtomicHubPage
+                onBack={() => handleReturnToHome('atomic-hub-section')}
+              />
+            )}
 
-          {route.view === 'devlog-detail' && (
-            <DevlogDetailPage
-              slug={route.slug}
-              onBack={() => handleNavigateStation('#devlog')}
-              onNavigateRoute={handleNavigateStation}
-            />
-          )}
+            {route.view === 'playground' && (
+              <PlaygroundPage
+                onBack={() => handleReturnToHome()}
+              />
+            )}
 
-          {route.view === 'orbit-cafe' && (
-            <OrbitCafePage
-              onBack={() => handleReturnToHome('experience')}
-            />
-          )}
+            {route.view === 'asset-station' && (
+              <AssetStationPage
+                onBack={() => handleReturnToHome()}
+              />
+            )}
 
-          {route.view === 'not-found' && (
-            <NotFoundPage onReturn={() => handleReturnToHome()} />
-          )}
+            {route.view === 'devlog' && (
+              <DevlogPage
+                onBack={() => handleReturnToHome()}
+                onSelectArticle={handleSelectDevlogArticle}
+              />
+            )}
 
-          {route.view === 'home' && (
-            <HomePage
-              onInspectProject={handleInspectProject}
-              onNavigateStation={handleNavigateStation}
-            />
-          )}
+            {route.view === 'devlog-detail' && (
+              <DevlogDetailPage
+                slug={route.slug}
+                onBack={() => handleNavigateStation('#devlog')}
+                onNavigateRoute={handleNavigateStation}
+              />
+            )}
 
-          {/* Footer with Celestial Coordinates and Back-to-Top */}
-          <Footer />
+            {route.view === 'orbit-cafe' && (
+              <OrbitCafePage
+                onBack={() => handleReturnToHome('experience')}
+              />
+            )}
+
+            {route.view === 'not-found' && (
+              <NotFoundPage onReturn={() => handleReturnToHome()} />
+            )}
+
+            {route.view === 'home' && (
+              <HomePage
+                onInspectProject={handleInspectProject}
+                onNavigateStation={handleNavigateStation}
+              />
+            )}
+
+            {/* Footer with Celestial Coordinates and Back-to-Top */}
+            <Footer />
+          </UniverseProvider>
         </SceneProvider>
       </SoundProvider>
     </MotionProvider>

@@ -1,0 +1,711 @@
+/* src/styles/universe.css */
+/* XEVRYN UNIVERSE V3 - Tactical Navigation & Star Map Styles */
+
+/* 1. Tactical Universe HUD */
+.universe-hud {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-header);
+  max-width: 900px;
+  width: calc(100% - 32px);
+  pointer-events: none;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.universe-hud.hud-transitioning {
+  opacity: 0.7;
+  transform: translateX(-50%) scale(0.98);
+}
+
+.universe-hud-inner {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 8px 14px;
+  background: rgba(10, 14, 26, 0.88);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  border-radius: var(--radius-full);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(56, 189, 248, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* Sector Telemetry Badge */
+.hud-sector-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  cursor: pointer;
+  color: var(--color-text-main);
+  font-family: var(--font-mono);
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.hud-sector-btn:hover,
+.hud-sector-btn:focus-visible {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: var(--color-cyan-glow);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
+.hud-radar-beacon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-cyan-glow);
+  box-shadow: 0 0 8px var(--color-cyan-glow);
+  animation: radarBeaconPulse 2s infinite ease-in-out;
+}
+
+@keyframes radarBeaconPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+.hud-sector-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-sector-code {
+  font-size: 9px;
+  color: var(--color-text-dim);
+  letter-spacing: 0.08em;
+}
+
+.hud-sector-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: 0.04em;
+}
+
+.hud-map-hint {
+  font-size: 10px;
+  color: var(--color-cyan-glow);
+  margin-left: 4px;
+  opacity: 0.8;
+}
+
+/* Sectors Track Dots (Desktop) */
+.hud-sectors-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-sector-dot-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  transition: all var(--transition-fast);
+}
+
+.hud-sector-dot-btn .hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.hud-sector-dot-btn:hover {
+  color: var(--color-text-main);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hud-sector-dot-btn:hover .hud-dot {
+  background: var(--color-cyan-glow);
+  box-shadow: 0 0 6px var(--color-cyan-glow);
+}
+
+.hud-sector-dot-btn.is-active {
+  color: var(--color-cyan-glow);
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.hud-sector-dot-btn.is-active .hud-dot {
+  background: var(--color-cyan-glow);
+  box-shadow: 0 0 8px var(--color-cyan-glow);
+  transform: scale(1.2);
+}
+
+/* Right Action Controls */
+.hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-map-btn,
+.hud-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.hud-map-btn {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: var(--color-cyan-glow);
+}
+
+.hud-map-btn:hover,
+.hud-map-btn:focus-visible {
+  background: rgba(56, 189, 248, 0.28);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+}
+
+.hud-mode-btn.mode-cinematic {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--color-text-muted);
+}
+
+.hud-mode-btn.mode-explore {
+  background: rgba(168, 85, 247, 0.18);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  color: #c084fc;
+}
+
+.hud-mode-btn:hover {
+  border-color: currentColor;
+}
+
+.mode-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.universe-key-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-text-main);
+}
+
+/* Explore Mode Active Helper Banner */
+.explore-mode-banner {
+  position: fixed;
+  top: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-header);
+  pointer-events: auto;
+  animation: exploreBannerDrop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes exploreBannerDrop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.explore-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: rgba(24, 12, 44, 0.92);
+  border: 1px solid rgba(192, 132, 252, 0.45);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(168, 85, 247, 0.25);
+  color: #f3e8ff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.explore-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c084fc;
+  box-shadow: 0 0 8px #c084fc;
+  animation: radarBeaconPulse 1.5s infinite ease-in-out;
+}
+
+.btn-exit-explore {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(192, 132, 252, 0.2);
+  border: 1px solid rgba(192, 132, 252, 0.5);
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.btn-exit-explore:hover {
+  background: rgba(192, 132, 252, 0.35);
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+}
+
+/* 2. Interactive Universe Map Overlay */
+.universe-map-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu-modal);
+  background: rgba(4, 7, 18, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: universeMapFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes universeMapFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.universe-map-container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 88vh;
+  max-height: 820px;
+  background: rgba(8, 12, 24, 0.94);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Map Header */
+.universe-map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  background: rgba(10, 16, 32, 0.6);
+}
+
+.universe-map-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.universe-map-dot-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-cyan-glow);
+  box-shadow: 0 0 10px var(--color-cyan-glow);
+  animation: radarBeaconPulse 1.8s infinite ease-in-out;
+}
+
+.universe-map-heading {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.universe-map-subheading {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-dim);
+  letter-spacing: 0.08em;
+  margin: 2px 0 0;
+}
+
+.universe-map-close-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--color-text-main);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.universe-map-close-btn:hover,
+.universe-map-close-btn:focus-visible {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+}
+
+/* Map Canvas Area */
+.universe-map-canvas-area {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 380px;
+  overflow: hidden;
+}
+
+.universe-map-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Constellation SVG Lines */
+.universe-constellation-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.constellation-line {
+  stroke: rgba(56, 189, 248, 0.22);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  transition: all var(--transition-normal);
+}
+
+.constellation-line.line-active {
+  stroke: var(--color-cyan-glow);
+  stroke-width: 2.2;
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.8));
+}
+
+/* Celestial Sector Nodes */
+.universe-nodes-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.universe-node-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--color-text-main);
+  outline: none;
+  transition: transform var(--transition-fast);
+}
+
+.universe-node-btn:hover,
+.universe-node-btn:focus-visible {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.node-core-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(14, 22, 42, 0.95);
+  border: 1.5px solid rgba(56, 189, 248, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--color-cyan-glow);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+  position: relative;
+  z-index: 2;
+  transition: all var(--transition-fast);
+}
+
+.universe-node-btn:hover .node-core-dot,
+.universe-node-btn:focus-visible .node-core-dot {
+  border-color: var(--color-cyan-glow);
+  background: rgba(56, 189, 248, 0.25);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+}
+
+.node-ring-pulse {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px dashed rgba(56, 189, 248, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.universe-node-btn.node-current .node-ring-pulse,
+.universe-node-btn:hover .node-ring-pulse {
+  opacity: 1;
+  animation: nodeRingSpin 8s infinite linear;
+}
+
+@keyframes nodeRingSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.universe-node-btn.node-current .node-core-dot {
+  border-color: var(--color-star-gold);
+  color: var(--color-star-gold);
+  box-shadow: 0 0 18px rgba(252, 211, 77, 0.55);
+}
+
+.node-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+.node-code {
+  font-size: 9px;
+  color: var(--color-text-dim);
+  letter-spacing: 0.08em;
+}
+
+.node-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.node-key-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: var(--color-text-muted);
+}
+
+/* Map Inspector Drawer */
+.universe-map-inspector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 24px;
+  border-top: 1px solid rgba(56, 189, 248, 0.2);
+  background: rgba(10, 16, 32, 0.85);
+}
+
+.inspector-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 240px;
+}
+
+.inspector-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 4px;
+  color: var(--color-cyan-glow);
+  font-weight: 700;
+}
+
+.inspector-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 0;
+}
+
+.inspector-tagline {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 2px 0 0;
+}
+
+.inspector-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.telemetry-item {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+}
+
+.telemetry-label {
+  font-size: 9px;
+  color: var(--color-text-dim);
+  letter-spacing: 0.08em;
+}
+
+.telemetry-value {
+  font-size: 11px;
+  color: var(--color-text-main);
+}
+
+.telemetry-value.status-online {
+  color: var(--color-success);
+}
+
+.btn-warp-jump {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(168, 85, 247, 0.25));
+  border: 1px solid var(--color-cyan-glow);
+  border-radius: var(--radius-full);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-warp-jump:hover,
+.btn-warp-jump:focus-visible {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(168, 85, 247, 0.4));
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  transform: scale(1.03);
+}
+
+.warp-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.btn-warp-jump:hover .warp-arrow {
+  transform: translateX(4px);
+}
+
+/* 3. Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .universe-hud {
+    bottom: 16px;
+    width: calc(100% - 24px);
+  }
+
+  .universe-hud-inner {
+    padding: 6px 10px;
+  }
+
+  .hud-sector-btn {
+    padding: 4px 10px;
+  }
+
+  .universe-map-overlay {
+    padding: 12px;
+  }
+
+  .universe-map-container {
+    height: 94vh;
+  }
+
+  .universe-map-header {
+    padding: 12px 16px;
+  }
+
+  .universe-map-inspector {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .inspector-telemetry {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn-warp-jump {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .node-code {
+    display: none;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .node-ring-pulse {
+    animation: none !important;
+  }
+  .hud-radar-beacon,
+  .explore-status-dot,
+  .universe-map-dot-pulse {
+    animation: none !important;
+  }
+}

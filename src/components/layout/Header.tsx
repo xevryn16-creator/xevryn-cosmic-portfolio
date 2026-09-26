@@ -1,9 +1,9 @@
-// src/components/layout/Header.tsx
 import React, { useState, useEffect } from 'react';
 import { navLinks, stationLinks } from '@/content/links';
 import { MotionControl } from '@/components/ui/MotionControl';
 import { MobileMenu } from '@/components/layout/MobileMenu';
 import { useSound } from '@/app/providers/SoundProvider';
+import { useUniverse } from '@/app/providers/UniverseProvider';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,6 +13,7 @@ export const Header: React.FC = () => {
   const [progress, setProgress] = useState(0);
   const [logoClicks, setLogoClicks] = useState(0);
   const { isMuted, toggleSound, playChime } = useSound();
+  const { currentSector, openUniverseMap, navigationMode, toggleNavigationMode } = useUniverse();
 
   const handleLogoClick = (e: React.MouseEvent) => {
     const nextCount = logoClicks + 1;
@@ -84,15 +85,43 @@ export const Header: React.FC = () => {
       />
       <header id="site-header" className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container header-inner">
-          <a
-            href="#hero"
-            onClick={handleLogoClick}
-            className="brand-logo"
-            aria-label="XEVRYN Cosmic Portfolio Home (Click 5 times for secret terminal)"
-          >
-            <span className="brand-dot" aria-hidden="true" />
-            <span>XEVRYN</span>
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <a
+              href="#hero"
+              onClick={handleLogoClick}
+              className="brand-logo"
+              aria-label="XEVRYN Cosmic Portfolio Home (Click 5 times for secret terminal)"
+            >
+              <span className="brand-dot" aria-hidden="true" />
+              <span>XEVRYN</span>
+            </a>
+
+            {/* Current Universe Sector Badge */}
+            <button
+              type="button"
+              onClick={openUniverseMap}
+              className="header-sector-badge hidden-mobile"
+              aria-label={`Current location: ${currentSector.sectorCode} ${currentSector.shortName}. Click to open Universe Star Map (M)`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(56, 189, 248, 0.08)',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                borderRadius: '12px',
+                padding: '3px 8px',
+                fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
+                color: 'var(--color-cyan-glow)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+              title="Open Universe Star Map [M]"
+            >
+              <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--color-cyan-glow)' }} />
+              <span>{currentSector.sectorCode} // {currentSector.shortName}</span>
+            </button>
+          </div>
 
           <nav aria-label="Main Navigation">
             <ul className="nav-links">
@@ -122,6 +151,59 @@ export const Header: React.FC = () => {
           </nav>
 
           <div className="header-actions">
+            {/* Universe Star Map Button */}
+            <button
+              type="button"
+              onClick={openUniverseMap}
+              className="btn-header-map hidden-mobile"
+              style={{
+                background: 'rgba(56, 189, 248, 0.12)',
+                border: '1px solid rgba(56, 189, 248, 0.35)',
+                color: 'var(--color-cyan-glow)',
+                padding: '4px 10px',
+                borderRadius: '20px',
+                fontSize: '11px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.15s ease',
+              }}
+              aria-label="Open Interactive Universe Star Map (M)"
+            >
+              <span aria-hidden="true">🗺️</span>
+              <span>MAP</span>
+              <span className="universe-key-badge" style={{ fontSize: '8px', padding: '1px 3px' }}>M</span>
+            </button>
+
+            {/* Mode Switcher: Cinematic vs Explore */}
+            <button
+              type="button"
+              onClick={toggleNavigationMode}
+              className="btn-header-mode hidden-mobile"
+              style={{
+                background: navigationMode === 'explore' ? 'rgba(168, 85, 247, 0.18)' : 'rgba(255, 255, 255, 0.05)',
+                border: navigationMode === 'explore' ? '1px solid rgba(168, 85, 247, 0.45)' : '1px solid rgba(255, 255, 255, 0.15)',
+                color: navigationMode === 'explore' ? '#c084fc' : 'var(--color-text-dim)',
+                padding: '4px 10px',
+                borderRadius: '20px',
+                fontSize: '11px',
+                fontFamily: 'var(--font-mono)',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                transition: 'all 0.15s ease',
+              }}
+              aria-label={`Switch navigation mode. Current: ${navigationMode}`}
+            >
+              <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'currentColor' }} />
+              <span>{navigationMode === 'explore' ? 'EXPLORE' : 'CINEMATIC'}</span>
+              <span className="universe-key-badge" style={{ fontSize: '8px', padding: '1px 3px' }}>E</span>
+            </button>
+
             {/* Desktop Space Hub Stations Quick Dropdown */}
             <div className="station-dropdown-wrapper hidden-mobile" style={{ position: 'relative' }}>
               <button
