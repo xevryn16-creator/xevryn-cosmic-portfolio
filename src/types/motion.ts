@@ -43,6 +43,19 @@ export interface SceneStateRef {
     exploreTilt?: { x: number; y: number };
     isTransitioning?: boolean;
     currentLocation?: string;
+    exploreCamera?: {
+      azimuth: number;
+      polar: number;
+      distance: number;
+      focusTarget: { x: number; y: number; z: number };
+      targetAzimuth: number;
+      targetPolar: number;
+      targetDistance: number;
+      targetFocus: { x: number; y: number; z: number };
+      isFocusLocked: boolean;
+      focusedObjectId: string | null;
+      hoveredObjectId: string | null;
+    };
   };
 }
 

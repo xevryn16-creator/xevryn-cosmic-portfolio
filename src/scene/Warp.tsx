@@ -74,18 +74,25 @@ export const Warp: React.FC = () => {
       material.size = THREE.MathUtils.lerp(material.size, 0.04 + warpFactor * 0.12, 0.1);
     }
 
-    // Move stars toward camera (Z direction) based on warpFactor
+    // Move stars toward camera (Z direction) based on warpFactor with radial streaks
     const positionsAttr = pointsRef.current.geometry.attributes.position as THREE.BufferAttribute;
     const posArray = positionsAttr.array as Float32Array;
-    const speed = (0.5 + warpFactor * 24.0) * delta;
+    const speed = (0.8 + warpFactor * 36.0) * delta;
+    const radialStretch = 1.0 + warpFactor * 0.06;
 
     for (let i = 0; i < 600; i++) {
       const i3 = i * 3;
       posArray[i3 + 2] += speed;
 
+      // Radial stretching outward as stars accelerate toward the viewer
+      const zProgress = (posArray[i3 + 2] + 25) / 40; // 0 to 1
+      const stretch = 1.0 + zProgress * (radialStretch - 1.0);
+      posArray[i3] = initialPositions[i3] * stretch;
+      posArray[i3 + 1] = initialPositions[i3 + 1] * stretch;
+
       // Wrap around tunnel bounds
-      if (posArray[i3 + 2] > 15) {
-        posArray[i3 + 2] = -25;
+      if (posArray[i3 + 2] > 18) {
+        posArray[i3 + 2] = -28;
         posArray[i3] = initialPositions[i3];
         posArray[i3 + 1] = initialPositions[i3 + 1];
       }

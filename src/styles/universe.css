@@ -286,6 +286,286 @@
   box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
 }
 
+/* Explore Mode Center Crosshair & Hover Target Reticle */
+.explore-crosshair-wrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: var(--z-header);
+}
+
+.explore-crosshair {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.crosshair-reticle {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.crosshair-reticle::before,
+.crosshair-reticle::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.crosshair-reticle::before {
+  top: 50%;
+  left: -4px;
+  right: -4px;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.crosshair-reticle::after {
+  left: 50%;
+  top: -4px;
+  bottom: -4px;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.explore-crosshair.is-targeting .crosshair-reticle {
+  width: 32px;
+  height: 32px;
+  border: 1.5px dashed var(--color-cyan-glow);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+  animation: nodeRingSpin 6s infinite linear;
+}
+
+.crosshair-target-card {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 16, 32, 0.92);
+  border: 1px solid var(--color-cyan-glow);
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(56, 189, 248, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  animation: exploreBannerDrop 0.2s ease-out;
+}
+
+.target-card-cat {
+  font-size: 8px;
+  color: var(--color-cyan-glow);
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.target-card-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.target-card-hint {
+  font-size: 8px;
+  color: var(--color-text-dim);
+  margin-top: 2px;
+}
+
+/* Focus Mode Locked Celestial Object Card */
+.universe-focus-card-wrap {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  z-index: var(--z-header);
+  max-width: 380px;
+  width: calc(100% - 48px);
+  pointer-events: auto;
+  animation: focusCardSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes focusCardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.universe-focus-card {
+  background: rgba(8, 14, 28, 0.95);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 24px rgba(56, 189, 248, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.focus-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  position: relative;
+}
+
+.focus-badge-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-star-gold);
+  box-shadow: 0 0 10px var(--color-star-gold);
+  margin-top: 5px;
+  flex-shrink: 0;
+  animation: radarBeaconPulse 1.6s infinite ease-in-out;
+}
+
+.focus-header-text {
+  flex: 1;
+}
+
+.focus-card-status {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--color-cyan-glow);
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  display: block;
+}
+
+.focus-card-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 2px 0 0;
+}
+
+.btn-focus-close {
+  background: transparent;
+  border: none;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  transition: color var(--transition-fast);
+}
+
+.btn-focus-close:hover {
+  color: var(--color-text-main);
+}
+
+.focus-card-subtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-cyan-glow);
+  margin: 8px 0 4px;
+}
+
+.focus-card-desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.focus-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.focus-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: var(--color-cyan-glow);
+}
+
+.focus-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-focus-primary {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.35), rgba(168, 85, 247, 0.35));
+  border: 1px solid var(--color-cyan-glow);
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-focus-primary:hover {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.5), rgba(168, 85, 247, 0.5));
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+}
+
+.focus-btn-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.btn-focus-primary:hover .focus-btn-arrow {
+  transform: translateX(3px);
+}
+
+.btn-focus-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-focus-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text-main);
+}
+
+@media (max-width: 768px) {
+  .universe-focus-card-wrap {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 80px;
+    width: calc(100% - 32px);
+  }
+}
+
 /* 2. Interactive Universe Map Overlay */
 .universe-map-overlay {
   position: fixed;

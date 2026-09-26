@@ -11,6 +11,8 @@ export function useUniverseKeyboard() {
     toggleNavigationMode,
     setNavigationMode,
     navigationMode,
+    focusedObject,
+    exitFocus,
     navigateTo,
     sectors,
   } = useUniverse();
@@ -50,11 +52,14 @@ export function useUniverseKeyboard() {
         return;
       }
 
-      // 3. Escape key closes map or exits explore mode
+      // 3. Escape key closes map, exits focus lock, or exits explore mode
       if (e.key === 'Escape') {
         if (isUniverseMapOpen) {
           e.preventDefault();
           closeUniverseMap();
+        } else if (focusedObject) {
+          e.preventDefault();
+          exitFocus();
         } else if (navigationMode === 'explore') {
           e.preventDefault();
           setNavigationMode('cinematic');

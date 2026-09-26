@@ -29,10 +29,38 @@ export interface SectorInfo {
   shortcutKey: string;
 }
 
+export type CelestialObjectCategory =
+  | 'CORE'
+  | 'PROJECT'
+  | 'EXPERIENCE'
+  | 'SKILL'
+  | 'LAB'
+  | 'ARCHIVE'
+  | 'NAVIGATION';
+
+export interface CelestialObjectMeta {
+  id: string;
+  name: string;
+  category: CelestialObjectCategory;
+  subtitle: string;
+  position: [number, number, number];
+  radius: number;
+  safeDistance: number;
+  slug?: string;
+  sectionId?: string;
+  description: string;
+  tags?: string[];
+  status?: string;
+  actionLabel?: string;
+  actionTarget?: string;
+}
+
 export interface UniverseState {
   currentLocation: UniverseLocation;
   navigationMode: NavigationMode;
   isUniverseMapOpen: boolean;
   isTransitioning: boolean;
   transitionProgress: number;
+  focusedObject: CelestialObjectMeta | null;
+  hoveredObject: CelestialObjectMeta | null;
 }

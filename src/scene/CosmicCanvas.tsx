@@ -16,6 +16,7 @@ import { Nebula } from '@/scene/Nebula';
 import { Warp } from '@/scene/Warp';
 import { Horizon } from '@/scene/Horizon';
 import { CameraRig } from '@/scene/CameraRig';
+import { InteractiveUniverseObjects } from '@/scene/InteractiveUniverseObjects';
 
 export const CosmicCanvas: React.FC = () => {
   const { webglSupported, isContextLost, setContextLost } = useScene();
@@ -96,7 +97,10 @@ export const CosmicCanvas: React.FC = () => {
           {/* 12. Contact Planet Horizon Curvature */}
           <Horizon />
 
-          {/* 13. Smooth Camera Interpolation */}
+          {/* 13. Interactive 3D Celestial Objects Layer */}
+          <InteractiveUniverseObjects />
+
+          {/* 14. Smooth Camera Interpolation */}
           {!isReduced && <CameraRig />}
         </Suspense>
       </Canvas>
