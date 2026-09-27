@@ -9,12 +9,12 @@ import { useMotion } from '@/app/providers/MotionProvider';
  * Komet yang meluncur sesekali melintasi antariksa dengan inti es bercahaya
  * dan ekor debu partikel memanjang yang memudar halus.
  */
+const COMET_START_POS = new THREE.Vector3(-18, 14, -18);
+const COMET_END_POS = new THREE.Vector3(18, -12, -8);
+
 export const Comet: React.FC = () => {
   const cometGroupRef = useRef<THREE.Group>(null);
   const { isReduced } = useMotion();
-
-  const startPos = new THREE.Vector3(-18, 14, -18);
-  const endPos = new THREE.Vector3(18, -12, -8);
 
   useFrame((state) => {
     if (!cometGroupRef.current || isReduced) return;
@@ -25,7 +25,7 @@ export const Comet: React.FC = () => {
     if (cycleTime <= 1.0) {
       // In flight across the cosmos
       cometGroupRef.current.visible = true;
-      cometGroupRef.current.position.lerpVectors(startPos, endPos, cycleTime);
+      cometGroupRef.current.position.lerpVectors(COMET_START_POS, COMET_END_POS, cycleTime);
     } else {
       // Hidden waiting for next flyby
       cometGroupRef.current.visible = false;

@@ -20,6 +20,7 @@ import { experienceContent } from '@/content/experience';
 import { SkillItem } from '@/types/content';
 import { useMotion } from '@/app/providers/MotionProvider';
 import { useScene } from '@/app/providers/SceneProvider';
+import { useUniverse } from '@/app/providers/UniverseProvider';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -56,6 +57,7 @@ export const Skills: React.FC = () => {
 
   const { isReduced } = useMotion();
   const { updateCameraTarget } = useScene();
+  const { navigateTo, openProjectWorld } = useUniverse();
 
   // Position nodes spatially by category
   const graphNodes: SkillGraphNode[] = useMemo(() => {
@@ -112,7 +114,7 @@ export const Skills: React.FC = () => {
   const connectedEvidence = useMemo(() => {
     if (!activeSkill || !activeSkill.projectIds) return [];
 
-    const results: Array<{ id: string; title: string; subtitle: string; url: string; type: 'project' | 'experience' }> = [];
+    const results: Array<{ id: string; slug?: string; title: string; subtitle: string; url: string; type: 'project' | 'experience' }> = [];
 
     activeSkill.projectIds.forEach((refId) => {
       // Check projects by slug or ID
@@ -120,6 +122,7 @@ export const Skills: React.FC = () => {
       if (prj) {
         results.push({
           id: prj.id,
+          slug: prj.slug,
           title: prj.title,
           subtitle: `Proyek Terverifikasi · ${prj.year || '2025'}`,
           url: `#work`,
@@ -434,19 +437,30 @@ export const Skills: React.FC = () => {
               {connectedEvidence.length > 0 ? (
                 <div className="evidence-cards-list">
                   {connectedEvidence.map((ev) => (
-                    <a
+                    <button
                       key={ev.id}
-                      href={ev.url}
+                      type="button"
+                      onClick={() => {
+                        if (ev.type === 'project' && ev.slug) {
+                          openProjectWorld(ev.slug);
+                        } else if (ev.url === '#media3-archive') {
+                          navigateTo('media');
+                        } else {
+                          navigateTo('experience');
+                        }
+                      }}
                       className="evidence-item-card"
+                      style={{ textAlign: 'left', width: '100%', background: 'transparent', cursor: 'pointer', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+                      title={`Buka ${ev.title}`}
                     >
                       <div className="evidence-item-info">
                         <span className="evidence-item-title">{ev.title}</span>
                         <span className="evidence-item-sub">{ev.subtitle}</span>
                       </div>
                       <span className="evidence-item-arrow" aria-hidden="true">
-                        {ev.id} →
+                        {ev.type === 'project' ? '🪐 Buka World' : '↗'} →
                       </span>
-                    </a>
+                    </button>
                   ))}
                 </div>
               ) : (

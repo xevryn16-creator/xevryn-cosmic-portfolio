@@ -33,34 +33,39 @@ export const Spacecraft: React.FC = () => {
     ]);
   }, []);
 
+const CRAFT_UP = new THREE.Vector3(0, 0, 1);
+const CRAFT_ORIGIN = new THREE.Vector3(0, 0, 0);
+const CRAFT_POS_TARGET = new THREE.Vector3();
+const CRAFT_TANGENT_TARGET = new THREE.Vector3();
+const CRAFT_MATRIX = new THREE.Matrix4();
+const CRAFT_ROTATION = new THREE.Euler();
+
   useFrame((state) => {
     if (!craftGroupRef.current) return;
 
     // Progress mengalir kontinu 0.0 - 1.0 dari scroll global
     const progress = Math.min(0.999, Math.max(0.001, sceneStateRef.current.progress || 0));
 
-    // Dapatkan posisi dan tangen arah gerak pada kurva
-    const point = flightCurve.getPointAt(progress);
-    const tangent = flightCurve.getTangentAt(progress);
+    // Dapatkan posisi dan tangen arah gerak pada kurva (reusable targets)
+    flightCurve.getPointAt(progress, CRAFT_POS_TARGET);
+    flightCurve.getTangentAt(progress, CRAFT_TANGENT_TARGET);
 
     // Micro-wobble jika bukan reduced motion
     const wobbleY = isReduced ? 0 : Math.sin(state.clock.elapsedTime * 4.5) * 0.025;
     const wobbleX = isReduced ? 0 : Math.cos(state.clock.elapsedTime * 3.5) * 0.015;
 
-    craftGroupRef.current.position.set(point.x + wobbleX, point.y + wobbleY, point.z);
+    craftGroupRef.current.position.set(CRAFT_POS_TARGET.x + wobbleX, CRAFT_POS_TARGET.y + wobbleY, CRAFT_POS_TARGET.z);
 
     // Orientasikan badan roket sejajar dengan arah gerak (tangent)
     // Model roket dibangun vertikal sepanjang sumbu Y positif, jadi arahkan sumbu Y lokal ke tangent
-    const upVector = new THREE.Vector3(0, 0, 1);
-    const matrix = new THREE.Matrix4();
-    matrix.lookAt(new THREE.Vector3(0, 0, 0), tangent, upVector);
+    CRAFT_MATRIX.lookAt(CRAFT_ORIGIN, CRAFT_TANGENT_TARGET, CRAFT_UP);
     
     // Rotasikan kuaternion agar moncong roket menghadap ke depan
-    const rotation = new THREE.Euler().setFromRotationMatrix(matrix);
+    CRAFT_ROTATION.setFromRotationMatrix(CRAFT_MATRIX);
     // Tambahkan koreksi offset rotasi lokal
-    craftGroupRef.current.rotation.x = THREE.MathUtils.lerp(craftGroupRef.current.rotation.x, rotation.x - Math.PI / 2, 0.08);
-    craftGroupRef.current.rotation.y = THREE.MathUtils.lerp(craftGroupRef.current.rotation.y, rotation.y, 0.08);
-    craftGroupRef.current.rotation.z = THREE.MathUtils.lerp(craftGroupRef.current.rotation.z, rotation.z, 0.08);
+    craftGroupRef.current.rotation.x = THREE.MathUtils.lerp(craftGroupRef.current.rotation.x, CRAFT_ROTATION.x - Math.PI / 2, 0.08);
+    craftGroupRef.current.rotation.y = THREE.MathUtils.lerp(craftGroupRef.current.rotation.y, CRAFT_ROTATION.y, 0.08);
+    craftGroupRef.current.rotation.z = THREE.MathUtils.lerp(craftGroupRef.current.rotation.z, CRAFT_ROTATION.z, 0.08);
 
     // Pulsating engine exhaust flame
     if (!isReduced) {

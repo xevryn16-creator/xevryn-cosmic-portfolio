@@ -1,5 +1,5 @@
 // src/app/App.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MotionProvider } from '@/app/providers/MotionProvider';
 import { SceneProvider } from '@/app/providers/SceneProvider';
 import { SoundProvider } from '@/app/providers/SoundProvider';
@@ -14,6 +14,7 @@ import { CosmicCanvas } from '@/scene/CosmicCanvas';
 import { FallbackPoster } from '@/components/scene/FallbackPoster';
 import { BootSequence } from '@/components/ui/BootSequence';
 import { InteractiveCursor } from '@/components/ui/InteractiveCursor';
+import { CommandPalette } from '@/components/ui/CommandPalette';
 import { HomePage } from '@/pages/HomePage';
 import { ProjectPage } from '@/pages/ProjectPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -85,6 +86,9 @@ const UniverseKeyboardListener: React.FC = () => {
 
 export const App: React.FC = () => {
   const [route, setRoute] = useState<RouteState>(resolveCurrentRoute);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
+  const closeCommandPalette = useCallback(() => setIsCommandPaletteOpen(false), []);
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -138,6 +142,23 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Global Command Palette shortcut: Ctrl/Cmd+K
+  useEffect(() => {
+    const handleGlobalKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('input, textarea, select') && e.key !== 'Escape') return;
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+      if (e.key === 'Escape' && isCommandPaletteOpen) {
+        setIsCommandPaletteOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKey);
+    return () => window.removeEventListener('keydown', handleGlobalKey);
+  }, [isCommandPaletteOpen]);
+
   const handleInspectProject = (slug: string) => {
     window.location.hash = `#work/${slug}`;
   };
@@ -181,6 +202,9 @@ export const App: React.FC = () => {
 
             {/* Desktop Custom Interactive Cursor */}
             <InteractiveCursor />
+
+            {/* Command Palette (Ctrl/Cmd+K) */}
+            <CommandPalette isOpen={isCommandPaletteOpen} onClose={closeCommandPalette} />
 
             {/* Accessible Skip to Content Link */}
             <SkipLink />

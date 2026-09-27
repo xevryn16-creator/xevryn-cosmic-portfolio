@@ -210,8 +210,24 @@ export const UniverseHUD: React.FC = () => {
             })}
           </div>
 
-          {/* Right Action Controls: Map & Mode Toggle */}
+          {/* Right Action Controls: Map, Command Palette & Mode Toggle */}
           <div className="hud-actions">
+            {/* Command Palette Button */}
+            <button
+              type="button"
+              onClick={() => {
+                const event = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true });
+                window.dispatchEvent(event);
+              }}
+              className="hud-map-btn hidden-mobile"
+              aria-label="Open Command Palette (Ctrl+K)"
+              title="Command Palette — Ctrl/Cmd+K"
+            >
+              <span aria-hidden="true">⌕</span>
+              <span className="hidden-mobile">SEARCH</span>
+              <span className="universe-key-badge hidden-mobile">⌘K</span>
+            </button>
+
             {/* Tactical Star Map Opener Button */}
             <button
               type="button"

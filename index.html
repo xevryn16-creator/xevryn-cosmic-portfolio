@@ -1,28 +1,37 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="id" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#05050A" />
+    <meta name="color-scheme" content="dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>XEVRYN — Full Stack Web Developer · Creative Technologist</title>
-    <meta name="description" content="Cinematic cosmic web portfolio of XEVRYN. Interactive 3D WebGL, GSAP animations, celestial storytelling, and creative technology." />
-    
-    <!-- OpenGraph / Social -->
+
+    <!-- Primary SEO -->
+    <title>XEVRYN — Full Stack Web Developer & Creative Technologist | Daffa Alfie</title>
+    <meta name="description" content="Portfolio digital interaktif Daffa Alfie Febryan (XEVRYN) — Full Stack Web Developer & Creative Technologist. Eksplorasi proyek web, Roblox, creative media, dan pengalaman kosmik 3D WebGL." />
+    <meta name="author" content="Daffa Alfie Febryan Tijani" />
+    <meta name="keywords" content="XEVRYN, Daffa Alfie, web developer, React, TypeScript, Three.js, WebGL, GSAP, portfolio, creative technologist, Roblox, Indonesia" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="XEVRYN — Full Stack Web Developer · Creative Technologist" />
-    <meta property="og:description" content="Interactive 3D WebGL cosmic portfolio, GSAP motion choreography, and high-performance frontend systems." />
-    <meta property="og:site_name" content="XEVRYN" />
+    <meta property="og:title" content="XEVRYN — Full Stack Web Developer & Creative Technologist" />
+    <meta property="og:description" content="Portfolio kosmik interaktif Daffa Alfie Febryan. Jelajahi proyek web, identitas kreatif, dan arsip pengalaman dalam semesta 3D WebGL immersif." />
+    <meta property="og:site_name" content="XEVRYN Portfolio" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:url" content="https://xevryn16-creator.github.io/xevryn-cosmic-portfolio/" />
 
-    <!-- Twitter / X -->
+    <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="XEVRYN — Full Stack Web Developer · Creative Technologist" />
-    <meta name="twitter:description" content="Interactive 3D WebGL cosmic portfolio, GSAP motion choreography, and high-performance frontend systems." />
+    <meta name="twitter:title" content="XEVRYN — Full Stack Web Developer & Creative Technologist" />
+    <meta name="twitter:description" content="Portfolio kosmik interaktif — WebGL 3D, GSAP animations, dan cinematic storytelling oleh Daffa Alfie (XEVRYN)." />
+    <meta name="twitter:creator" content="@xevryn16" />
 
-    <!-- Google Fonts: Space Grotesk & Inter -->
+    <!-- Google Fonts: Space Grotesk, Inter & Space Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 
     <style>
       /* Prevent white flash during initial load */
@@ -32,6 +41,17 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+      }
+
+      /* Inline critical boot styles */
+      #root {
+        min-height: 100dvh;
+        position: relative;
+      }
+
+      /* Immediately apply dark bg before any JS executes */
+      :root {
+        color-scheme: dark;
       }
     </style>
   </head>
